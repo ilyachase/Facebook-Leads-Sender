@@ -113,3 +113,7 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.page-content p.bg-warning, .page-content p.bg-info, .page-content p.bg-danger, .page-content p.bg-success {
+    padding: 15px;
+}
