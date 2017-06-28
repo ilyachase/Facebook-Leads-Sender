@@ -19,7 +19,7 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "facebook/php-sdk-v4" : "~5.0",
-        "facebook/php-ads-sdk": "2.5.*"
+        "facebook/php-ads-sdk": "2.9.*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

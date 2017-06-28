@@ -2,13 +2,16 @@
 
 namespace app\controllers;
 
+use Facebook\Authentication\AccessToken;
+use FacebookAds\Api;
+use FacebookAds\Object\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\Adaccount;
 use Facebook\Facebook;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
@@ -23,10 +26,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only'  => [ 'logout' ],
+                'only'  => [ 'index', 'logout' ],
                 'rules' => [
                     [
-                        'actions' => [ 'logout' ],
+                        'actions' => [ 'index', 'logout' ],
                         'allow'   => true,
                         'roles'   => [ '@' ],
                     ],
@@ -70,11 +73,9 @@ class SiteController extends Controller
         }
 
         $fb = new Facebook( [
-            'app_id'     => '109433556350716',
-            'app_secret' => '22e9f275cbca86c39b8f51af404ae779',
+            PARAMS_FB_APP_ID     => Yii::$app->params[PARAMS_FB_APP_ID],
+            PARAMS_FB_APP_SECRET => Yii::$app->params[PARAMS_FB_APP_SECRET],
         ] );
-
-        $helper = $fb->getRedirectLoginHelper();
 
         if ( !Yii::$app->session['facebook_access_token'] )
         {
@@ -95,15 +96,28 @@ class SiteController extends Controller
                 //echo 'Facebook SDK returned an error: ' . $e->getMessage();
                 //exit;
             }
+
+            if ( !Yii::$app->session['facebook_access_token'] )
+            {
+                $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, [ 'ads_management' ] );
+                return $this->render( 'fb_login', [ 'loginUrl' => $loginUrl ] );
+            }
         }
 
-        if ( !Yii::$app->session['facebook_access_token'] )
+        Api::init(
+            Yii::$app->params[PARAMS_FB_APP_ID],
+            Yii::$app->params[PARAMS_FB_APP_SECRET],
+            Yii::$app->session['facebook_access_token']
+        );
+
+        $adaccounts = [];
+        /** @var \FacebookAds\Object\AdAccount $adaccount */
+        foreach ( ( new User( 'me' ) )->getAdAccounts() as $adaccount )
         {
-            $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, [ 'ads_management' ] );
-            return $this->render( 'fb_login', ['loginUrl' => $loginUrl] );
+            $adaccounts[] = new Adaccount( $adaccount );
         }
 
-        return $this->render( 'index' );
+        return $this->render( 'adaccounts', [ 'adaccounts' => $adaccounts ] );
     }
 
     /**
@@ -138,25 +152,6 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ( $model->load( Yii::$app->request->post() ) && $model->contact( Yii::$app->params['adminEmail'] ) )
-        {
-            Yii::$app->session->setFlash( 'contactFormSubmitted' );
-
-            return $this->refresh();
-        }
-        return $this->render( 'contact', [
-            'model' => $model,
-        ] );
     }
 
     /**

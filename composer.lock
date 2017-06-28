@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cae46d418dd2f8136ecd66b460a8d95d",
+    "content-hash": "fdd034cdcf510f96a5d24db25af4b68e",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -316,20 +316,20 @@
         },
         {
             "name": "facebook/php-ads-sdk",
-            "version": "2.5.2",
+            "version": "2.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/facebook-php-ads-sdk.git",
-                "reference": "406826df6249c466fb352228413ba99d6e65178c"
+                "reference": "d7fefc0b3da320d0d6255eaadc937a2bc30bb30b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/facebook-php-ads-sdk/zipball/406826df6249c466fb352228413ba99d6e65178c",
-                "reference": "406826df6249c466fb352228413ba99d6e65178c",
+                "url": "https://api.github.com/repos/facebook/facebook-php-ads-sdk/zipball/d7fefc0b3da320d0d6255eaadc937a2bc30bb30b",
+                "reference": "d7fefc0b3da320d0d6255eaadc937a2bc30bb30b",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": ">=4.0.0",
+                "phpunit/phpunit": "~4.6",
                 "symfony/finder": "~2.6"
             },
             "type": "library",
@@ -349,7 +349,7 @@
                 "facebook",
                 "sdk"
             ],
-            "time": "2016-04-07T14:51:52+00:00"
+            "time": "2017-06-23T19:10:23+00:00"
         },
         {
             "name": "facebook/php-sdk-v4",
