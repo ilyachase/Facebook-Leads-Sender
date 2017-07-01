@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use Facebook\Authentication\AccessToken;
+use app\models\ScalarLeadForm;
 use FacebookAds\Api;
 use FacebookAds\Object\User;
 use Yii;
@@ -11,13 +11,14 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\Adaccount;
+use app\models\ScalarAdaccount;
 use Facebook\Facebook;
-use Facebook\Exceptions\FacebookResponseException;
-use Facebook\Exceptions\FacebookSDKException;
 
 class SiteController extends Controller
 {
+    /** @var Facebook */
+    private $_fbApi;
+
     /**
      * @inheritdoc
      */
@@ -60,6 +61,23 @@ class SiteController extends Controller
         ];
     }
 
+    public function init()
+    {
+        Api::init(
+            Yii::$app->params[PARAMS_FB_APP_ID],
+            Yii::$app->params[PARAMS_FB_APP_SECRET],
+            Yii::$app->session['facebook_access_token']
+        );
+
+        $this->_fbApi = new Facebook( [
+            PARAMS_FB_APP_ID          => Yii::$app->params[PARAMS_FB_APP_ID],
+            PARAMS_FB_APP_SECRET      => Yii::$app->params[PARAMS_FB_APP_SECRET],
+            'persistent_data_handler' => 'session',
+        ] );
+
+        parent::init();
+    }
+
     /**
      * Displays homepage.
      *
@@ -72,49 +90,37 @@ class SiteController extends Controller
             Yii::$app->session->open();
         }
 
-        $fb = new Facebook( [
-            PARAMS_FB_APP_ID     => Yii::$app->params[PARAMS_FB_APP_ID],
-            PARAMS_FB_APP_SECRET => Yii::$app->params[PARAMS_FB_APP_SECRET],
-        ] );
-
         if ( !Yii::$app->session['facebook_access_token'] )
         {
-            $helper = $fb->getRedirectLoginHelper();
-            try
+            if ( !session_id() )
             {
-                Yii::$app->session['facebook_access_token'] = (string) $helper->getAccessToken();
+                session_start();
             }
-            catch ( FacebookResponseException $e )
-            {
-                // TODO: When Graph returns an error
-                //echo 'Graph returned an error: ' . $e->getMessage();
-                //exit;
-            }
-            catch ( FacebookSDKException $e )
-            {
-                // TODO: When validation fails or other local issues
-                //echo 'Facebook SDK returned an error: ' . $e->getMessage();
-                //exit;
-            }
+
+            $helper = $this->_fbApi->getRedirectLoginHelper();
+            Yii::$app->session['facebook_access_token'] = (string) $helper->getAccessToken();
 
             if ( !Yii::$app->session['facebook_access_token'] )
             {
-                $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, [ 'ads_management' ] );
+                $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, [ 'ads_management', 'manage_pages' ] );
                 return $this->render( 'fb_login', [ 'loginUrl' => $loginUrl ] );
             }
         }
-
-        Api::init(
-            Yii::$app->params[PARAMS_FB_APP_ID],
-            Yii::$app->params[PARAMS_FB_APP_SECRET],
-            Yii::$app->session['facebook_access_token']
-        );
 
         $adaccounts = [];
         /** @var \FacebookAds\Object\AdAccount $adaccount */
         foreach ( ( new User( 'me' ) )->getAdAccounts() as $adaccount )
         {
-            $adaccounts[] = new Adaccount( $adaccount );
+            $formsData = [];
+            try
+            {
+                $formsData = Api::instance()->call( "/" . $adaccount->getData()['id'] . "/leadgen_forms", "GET" )->getContent()['data'];
+            }
+            catch ( \Exception $e )
+            {
+            }
+
+            $adaccounts[] = new ScalarAdaccount( $adaccount, $formsData );
         }
 
         return $this->render( 'adaccounts', [ 'adaccounts' => $adaccounts ] );
@@ -155,12 +161,18 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays about page.
+     * @param int $id
      *
      * @return string
      */
-    public function actionAbout()
+    public function actionAdaccount( $id )
     {
-        return $this->render( 'about' );
+        $leadForms = [];
+        foreach ( Api::instance()->call( "/$id/leadgen_forms", "GET" )->getContent()['data'] as $leadFormData )
+        {
+            $leadForms[] = new ScalarLeadForm( $leadFormData );
+        }
+
+        return $this->render( 'adaccount', [ 'id' => $id, 'leadForms' => $leadForms ] );
     }
 }
