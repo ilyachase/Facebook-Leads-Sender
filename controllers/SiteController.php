@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\ScalarLeadForm;
+use app\models\ScalarPage;
 use FacebookAds\Api;
-use FacebookAds\Object\User;
+use FacebookAds\Object\Page;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -74,11 +74,11 @@ class SiteController extends Controller
 
         try
         {
-            $this->_userId = Api::instance()->call('/me', 'GET')->getContent()['id'];
-            if (!$this->_userId)
-                throw new \Exception("Can't get user id");
+            $this->_userId = Api::instance()->call( '/me', 'GET' )->getContent()['id'];
+            if ( !$this->_userId )
+                throw new \Exception( "Can't get user id" );
         }
-        catch (\Exception $e)
+        catch ( \Exception $e )
         {
             throw $e;
         }
@@ -123,7 +123,7 @@ class SiteController extends Controller
 
         $businesses = [];
         /** @var \FacebookAds\Object\AdAccount $adaccount */
-        foreach ( Api::instance()->call("/$this->_userId/businesses", 'GET')->getContent()['data'] as $businessData )
+        foreach ( Api::instance()->call( "/$this->_userId/businesses", 'GET' )->getContent()['data'] as $businessData )
         {
             $businesses[] = new ScalarBusiness( $businessData );
         }
@@ -182,14 +182,27 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionAdaccount( $id )
+    public function actionBusinessdetails( $id )
     {
-        $leadForms = [];
-        foreach ( Api::instance()->call( "/$id/leadgen_forms", "GET" )->getContent()['data'] as $leadFormData )
+        $businessName = Api::instance()->call( "/940459386005248", 'GET' )->getContent()['name'];
+
+        $pages = [];
+        foreach ( Api::instance()->call( "/$id/pages", "GET" )->getContent()['data'] as $pageData )
         {
-            $leadForms[] = new ScalarLeadForm( $leadFormData );
+            $page = new Page( $pageData['id'] );
+            $haveForms = false;
+            try
+            {
+                $leadgen_forms = $page->getLeadgenForms();
+                $haveForms = $leadgen_forms->count() > 0;
+            }
+            catch ( \FacebookAds\Http\Exception\AuthorizationException $e )
+            {
+            }
+
+            $pages[] = new ScalarPage( $pageData, $haveForms );
         }
 
-        return $this->render( 'adaccount', [ 'id' => $id, 'leadForms' => $leadForms ] );
+        return $this->render( 'businessdetails', [ 'name' => $businessName, 'pages' => $pages ] );
     }
 }

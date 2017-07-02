@@ -64,7 +64,9 @@ AppAsset::register( $this );
             'links' => isset( $this->params['breadcrumbs'] ) ? $this->params['breadcrumbs'] : [],
         ] ) ?>
         <div class="page-content">
-            <h1><?= $this->title ?></h1>
+            <?php if ( $this->title != 'Not Found (#404)' ): ?>
+                <h1><?= $this->title ?></h1>
+            <?php endif; ?>
             <?= $content ?>
         </div>
     </div>

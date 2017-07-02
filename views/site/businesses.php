@@ -18,7 +18,7 @@ $this->title = 'Businesses';
     foreach ( $businesses as $business ): ?>
         <tr>
             <td>
-                <a href="<?= Url::to( [ 'site/adaccount', 'id' => $business->id ] ) ?>">
+                <a href="<?= Url::to( [ 'site/businessdetails', 'id' => $business->id ] ) ?>">
                     <?= $business->name ?>
                 </a>
             </td>
