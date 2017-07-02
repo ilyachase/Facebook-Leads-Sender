@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'Ad Account "' . $id . '"';
+$this->title = 'Page "' . $name . '"';
 ?>
 
     <h2>Leadgen Forms</h2>

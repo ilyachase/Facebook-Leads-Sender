@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ScalarLeadForm;
 use app\models\ScalarPage;
 use FacebookAds\Api;
 use FacebookAds\Object\Page;
@@ -204,5 +205,19 @@ class SiteController extends Controller
         }
 
         return $this->render( 'businessdetails', [ 'name' => $businessName, 'pages' => $pages ] );
+    }
+
+    public function actionPagedetails( $id )
+    {
+        $page = new Page( $id );
+        $pageName = $page->read()->getData()['name'];
+
+        $leadForms = [];
+        foreach ( $page->getLeadgenForms() as $leadgenForm )
+        {
+            $leadForms[] = new ScalarLeadForm( $leadgenForm->getData() );
+        }
+
+        return $this->render( 'pagedetails', [ 'name' => $pageName, 'leadForms' => $leadForms ] );
     }
 }
