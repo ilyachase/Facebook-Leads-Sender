@@ -12,7 +12,7 @@ foreach ( $leadForms as $leadForm ):
     ?>
     <dl class="dl-horizontal">
         <dt>Name</dt>
-        <dd><?= $leadForm->name . "($leadForm->id)" ?></dd>
+        <dd><?= $leadForm->name . " ($leadForm->id)" ?></dd>
         <dt>Leads export url</dt>
         <dd>
             <a href="<?= $leadForm->exportUrl ?>">

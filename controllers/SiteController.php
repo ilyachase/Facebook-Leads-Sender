@@ -11,13 +11,16 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ScalarAdaccount;
+use app\models\ScalarBusiness;
 use Facebook\Facebook;
 
 class SiteController extends Controller
 {
     /** @var Facebook */
     private $_fbApi;
+
+    /** @var string */
+    private $_userId;
 
     /**
      * @inheritdoc
@@ -69,6 +72,17 @@ class SiteController extends Controller
             Yii::$app->session['facebook_access_token']
         );
 
+        try
+        {
+            $this->_userId = Api::instance()->call('/me', 'GET')->getContent()['id'];
+            if (!$this->_userId)
+                throw new \Exception("Can't get user id");
+        }
+        catch (\Exception $e)
+        {
+            throw $e;
+        }
+
         $this->_fbApi = new Facebook( [
             PARAMS_FB_APP_ID          => Yii::$app->params[PARAMS_FB_APP_ID],
             PARAMS_FB_APP_SECRET      => Yii::$app->params[PARAMS_FB_APP_SECRET],
@@ -102,28 +116,19 @@ class SiteController extends Controller
 
             if ( !Yii::$app->session['facebook_access_token'] )
             {
-                $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, [ 'ads_management', 'manage_pages' ] );
+                $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, Yii::$app->params[PARAMS_FB_SCOPES] );
                 return $this->render( 'fb_login', [ 'loginUrl' => $loginUrl ] );
             }
         }
 
-        $adaccounts = [];
+        $businesses = [];
         /** @var \FacebookAds\Object\AdAccount $adaccount */
-        foreach ( ( new User( 'me' ) )->getAdAccounts() as $adaccount )
+        foreach ( Api::instance()->call("/$this->_userId/businesses", 'GET')->getContent()['data'] as $businessData )
         {
-            $formsData = [];
-            try
-            {
-                $formsData = Api::instance()->call( "/" . $adaccount->getData()['id'] . "/leadgen_forms", "GET" )->getContent()['data'];
-            }
-            catch ( \Exception $e )
-            {
-            }
-
-            $adaccounts[] = new ScalarAdaccount( $adaccount, $formsData );
+            $businesses[] = new ScalarBusiness( $businessData );
         }
 
-        return $this->render( 'adaccounts', [ 'adaccounts' => $adaccounts ] );
+        return $this->render( 'businesses', [ 'businesses' => $businesses ] );
     }
 
     /**
@@ -156,6 +161,18 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+
+    /**
+     * Reset action.
+     *
+     * @return Response
+     */
+    public function actionReset()
+    {
+        Yii::$app->session->destroy();
 
         return $this->goHome();
     }
