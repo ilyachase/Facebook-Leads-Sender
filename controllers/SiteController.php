@@ -3,8 +3,10 @@
 namespace app\controllers;
 
 use app\models\ScalarLeadForm;
+use app\models\ScalarLeadgenForm;
 use app\models\ScalarPage;
 use FacebookAds\Api;
+use FacebookAds\Http\RequestInterface;
 use FacebookAds\Object\Page;
 use Yii;
 use yii\filters\AccessControl;
@@ -226,8 +228,21 @@ class SiteController extends Controller
         return $this->render( 'pagedetails', [ 'name' => $pageName, 'leadForms' => $leadForms ] );
     }
 
+    /**
+     * @param $id
+     *
+     * @return string
+     */
     public function actionCreateruleset( $id )
     {
-        echo $id;
+        $formData = Api::instance()->call( "/$id", RequestInterface::METHOD_GET, [ 'fields' => 'id,name,qualifiers' ] )->getContent();
+        $leadgenForm = new ScalarLeadgenForm( $formData );
+
+        if ( Yii::$app->request->isPost )
+        {
+            d(Yii::$app->request->post());
+        }
+
+        return $this->render( 'createruleset', [ 'leadgenForm' => $leadgenForm ] );
     }
 }
