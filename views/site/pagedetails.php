@@ -2,6 +2,8 @@
 
 /* @var $this yii\web\View */
 
+use yii\helpers\Url;
+
 $this->title = 'Page "' . $name . '"';
 ?>
 
@@ -21,5 +23,11 @@ foreach ( $leadForms as $leadForm ):
         </dd>
         <dt>Status</dt>
         <dd><?= $leadForm->status ?></dd>
+        <dt></dt>
+        <dd>
+            <a class="btn btn-primary" href="<?= Url::to(['site/createruleset', 'id' => $leadForm->id]) ?>">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Create ADF ruleset
+            </a>
+        </dd>
     </dl>
 <?php endforeach; ?>

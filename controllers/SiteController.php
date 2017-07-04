@@ -207,6 +207,11 @@ class SiteController extends Controller
         return $this->render( 'businessdetails', [ 'name' => $businessName, 'pages' => $pages ] );
     }
 
+    /**
+     * @param $id
+     *
+     * @return string
+     */
     public function actionPagedetails( $id )
     {
         $page = new Page( $id );
@@ -219,5 +224,10 @@ class SiteController extends Controller
         }
 
         return $this->render( 'pagedetails', [ 'name' => $pageName, 'leadForms' => $leadForms ] );
+    }
+
+    public function actionCreateruleset( $id )
+    {
+        echo $id;
     }
 }
