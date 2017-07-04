@@ -67,6 +67,21 @@ AppAsset::register( $this );
             <?php if ( $this->title != 'Not Found (#404)' ): ?>
                 <h1><?= $this->title ?></h1>
             <?php endif; ?>
+            <?php if ( isset( Yii::$app->params['warning'] ) ): ?>
+                <p class="bg-warning">
+                    <?= Yii::$app->params['warning'] ?>
+                </p>
+            <?php endif; ?>
+            <?php if ( isset( Yii::$app->params['message'] ) ): ?>
+                <p class="bg-success">
+                    <?= Yii::$app->params['message'] ?>
+                </p>
+            <?php endif; ?>
+            <?php if ( isset( Yii::$app->params['error'] ) ): ?>
+                <p class="bg-danger">
+                    <?= Yii::$app->params['error'] ?>
+                </p>
+            <?php endif; ?>
             <?= $content ?>
         </div>
     </div>

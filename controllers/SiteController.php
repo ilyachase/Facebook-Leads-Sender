@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Rulesets;
 use app\models\ScalarLeadForm;
 use app\models\ScalarLeadgenForm;
 use app\models\ScalarPage;
@@ -120,7 +121,8 @@ class SiteController extends Controller
             if ( !Yii::$app->session['facebook_access_token'] )
             {
                 $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, Yii::$app->params[PARAMS_FB_SCOPES] );
-                return $this->render( 'fb_login', [ 'loginUrl' => $loginUrl ] );
+                Yii::$app->params['warning'] = 'In order to work with the system, you should <a href="' . $loginUrl . '">log in with Facebook</a> first.';
+                return $this->render( 'fb_login' );
             }
         }
 
@@ -240,7 +242,8 @@ class SiteController extends Controller
 
         if ( Yii::$app->request->isPost )
         {
-            d(Yii::$app->request->post());
+            ( new Rulesets() )->fillFromPost( $id, Yii::$app->request->post() )->save();
+            Yii::$app->params['message'] = 'Ruleset saved successfull.';
         }
 
         return $this->render( 'createruleset', [ 'leadgenForm' => $leadgenForm ] );
