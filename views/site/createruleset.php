@@ -25,10 +25,7 @@ $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
         <div class="form-group">
             <div class="col-sm-4">
                 <select class="form-control" name="fieldConnections[<?= $field->id ?>][<?= \app\models\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
-                    <option value="test1">Test 1</option>
-                    <option value="test2">Test 2</option>
-                    <option value="test3">Test 3</option>
-                    <option value="test4">Test 4</option>
+                    <?= $selectOptions ?>
                 </select>
             </div>
         </div>

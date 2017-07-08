@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ADFGenerator;
 use app\models\Rulesets;
 use app\models\ScalarLeadForm;
 use app\models\ScalarLeadgenForm;
@@ -70,11 +71,38 @@ class SiteController extends Controller
 
     public function init()
     {
+        parent::init();
+
         Api::init(
             Yii::$app->params[PARAMS_FB_APP_ID],
             Yii::$app->params[PARAMS_FB_APP_SECRET],
             Yii::$app->session['facebook_access_token']
         );
+
+        $this->_fbApi = new Facebook( [
+            PARAMS_FB_APP_ID          => Yii::$app->params[PARAMS_FB_APP_ID],
+            PARAMS_FB_APP_SECRET      => Yii::$app->params[PARAMS_FB_APP_SECRET],
+            'persistent_data_handler' => 'session',
+        ] );
+    }
+
+    /**
+     * @param \yii\base\Action $action
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    public function beforeAction( $action )
+    {
+        if ( !parent::beforeAction( $action ) )
+            return false;
+
+        if ( !isset( Yii::$app->session['facebook_access_token'] ) && Yii::$app->request->getUrl() != '/' && false === strpos( Yii::$app->request->getUrl(), 'code' ) )
+        {
+            Yii::$app->session['back_url'] = Yii::$app->request->getUrl();
+            $this->redirect( '/' );
+            return false;
+        }
 
         try
         {
@@ -82,18 +110,23 @@ class SiteController extends Controller
             if ( !$this->_userId )
                 throw new \Exception( "Can't get user id" );
         }
+        catch ( \FacebookAds\Http\Exception\AuthorizationException $e )
+        {
+            // TODO: try to prolong access token
+            unset( Yii::$app->session['facebook_access_token'] );
+            if ( Yii::$app->request->getUrl() != '/' && false === strpos( Yii::$app->request->getUrl(), 'code' ) )
+            {
+                Yii::$app->session['back_url'] = Yii::$app->request->getUrl();
+                $this->redirect( '/' );
+                return false;
+            }
+        }
         catch ( \Exception $e )
         {
             throw $e;
         }
 
-        $this->_fbApi = new Facebook( [
-            PARAMS_FB_APP_ID          => Yii::$app->params[PARAMS_FB_APP_ID],
-            PARAMS_FB_APP_SECRET      => Yii::$app->params[PARAMS_FB_APP_SECRET],
-            'persistent_data_handler' => 'session',
-        ] );
-
-        parent::init();
+        return true;
     }
 
     /**
@@ -124,6 +157,13 @@ class SiteController extends Controller
                 Yii::$app->params['warning'] = 'In order to work with the system, you should <a href="' . $loginUrl . '">log in with Facebook</a> first.';
                 return $this->render( 'fb_login' );
             }
+        }
+
+        if ( isset( Yii::$app->session['back_url'] ) )
+        {
+            $redirectUrl = Yii::$app->session['back_url'];
+            unset( Yii::$app->session['back_url'] );
+            return $this->redirect( $redirectUrl );
         }
 
         $businesses = [];
@@ -246,6 +286,6 @@ class SiteController extends Controller
             Yii::$app->params['message'] = 'Ruleset saved successfull.';
         }
 
-        return $this->render( 'createruleset', [ 'leadgenForm' => $leadgenForm ] );
+        return $this->render( 'createruleset', [ 'leadgenForm' => $leadgenForm, 'selectOptions' => (new ADFGenerator())->getADFFieldSelectOptionsHtml() ] );
     }
 }
