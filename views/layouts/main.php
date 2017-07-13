@@ -36,6 +36,7 @@ AppAsset::register( $this );
         'options' => [ 'class' => 'navbar-nav' ],
         'items'   => [
             [ 'label' => 'Home', 'url' => [ '/site/index' ] ],
+            [ 'label' => 'Connections', 'url' => [ '/connections/index' ] ],
         ],
     ] );
     echo Nav::widget( [

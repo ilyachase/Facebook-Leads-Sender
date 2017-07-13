@@ -8,14 +8,17 @@ class m170704_075842_rulesets_table_creation extends Migration
     public function safeUp()
     {
         $this->createTable( 'rulesets', [
-            'id'      => Schema::TYPE_BIGPK,
-            'content' => Schema::TYPE_TEXT,
+            'id'          => Schema::TYPE_BIGPK,
+            'leadform_id' => Schema::TYPE_BIGINT,
+            'content'     => Schema::TYPE_TEXT,
+            'KEY `leadform_id` (leadform_id)'
         ] );
     }
 
     public function safeDown()
     {
-        return $this->dropTable( 'rulesets' );
+        $this->dropTable( 'rulesets' );
+        return true;
     }
 
     /*

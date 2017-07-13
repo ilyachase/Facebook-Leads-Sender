@@ -97,6 +97,11 @@ class SiteController extends Controller
         if ( !parent::beforeAction( $action ) )
             return false;
 
+        if ( Yii::$app->requestedAction->id === 'login' )
+        {
+            return true;
+        }
+
         if ( !isset( Yii::$app->session['facebook_access_token'] ) && Yii::$app->request->getUrl() != '/' && false === strpos( Yii::$app->request->getUrl(), 'code' ) )
         {
             Yii::$app->session['back_url'] = Yii::$app->request->getUrl();
@@ -286,6 +291,6 @@ class SiteController extends Controller
             Yii::$app->params['message'] = 'Ruleset saved successfull.';
         }
 
-        return $this->render( 'createruleset', [ 'leadgenForm' => $leadgenForm, 'selectOptions' => (new ADFGenerator())->getADFFieldSelectOptionsHtml() ] );
+        return $this->render( 'createruleset', [ 'leadgenForm' => $leadgenForm, 'selectOptions' => ( new ADFGenerator() )->getADFFieldSelectOptionsHtml() ] );
     }
 }

@@ -2,12 +2,11 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "rulesets".
  *
  * @property integer $id
+ * @property integer $leadform_id
  * @property string $content
  */
 class Rulesets extends \yii\db\ActiveRecord
@@ -39,8 +38,9 @@ class Rulesets extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'      => 'ID',
-            'content' => 'Content',
+            'id'          => 'ID',
+            'leadform_id' => 'Lead Form ID',
+            'content'     => 'Content',
         ];
     }
 
@@ -52,7 +52,8 @@ class Rulesets extends \yii\db\ActiveRecord
      */
     public function fillFromPost( $formId, array $post )
     {
-        if ( $old = self::findOne( $formId ) )
+        // TODO: update by id AND leadgen_id
+        if ( $old = self::findOne( [ 'leadform_id' => $formId ] ) )
         {
             $this->setIsNewRecord( false );
             $this->setOldAttributes( $old->getAttributes() );
@@ -63,7 +64,7 @@ class Rulesets extends \yii\db\ActiveRecord
             $this->fieldConnections[] = new ScalarFieldConnection( $leadFormFileId, $data );
         }
 
-        $this->id = $formId;
+        $this->leadform_id = $formId;
         $this->content = serialize( $this->fieldConnections );
 
         return $this;
