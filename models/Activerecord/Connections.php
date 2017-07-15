@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\activerecord;
 
 /**
  * This is the model class for table "connections".
@@ -10,6 +10,8 @@ namespace app\models;
  * @property integer $client_id
  * @property integer $check_interval
  * @property string $last_time_checked
+ * @property string $email
+ * @property integer $last_lead_time
  * @property integer $is_active
  */
 class Connections extends \yii\db\ActiveRecord
@@ -29,7 +31,8 @@ class Connections extends \yii\db\ActiveRecord
     {
         return [
             [['ruleset_id', 'client_id', 'check_interval', 'is_active'], 'integer'],
-            [['ruleset_id', 'check_interval', 'is_active'], 'required'],
+            [['email'], 'email'],
+            [['ruleset_id', 'check_interval', 'is_active', 'email'], 'required'],
             [['last_time_checked'], 'safe'],
         ];
     }

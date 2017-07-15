@@ -14,7 +14,7 @@ $this->title = 'Businesses';
     </tr>
     </thead>
     <tbody>
-    <?php /** @var \app\models\ScalarBusiness $business */
+    <?php /** @var \app\models\scalar\ScalarBusiness $business */
     foreach ( $businesses as $business ): ?>
         <tr>
             <td>

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\activerecord;
 
 /**
  * This is the ActiveQuery class for [[Connections]].

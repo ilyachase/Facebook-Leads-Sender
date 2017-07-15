@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Connections */
+/* @var $model app\models\activerecord\Connections */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field( $model, 'client_id' )->textInput() ?>
 
     <?= $form->field( $model, 'check_interval' )->dropDownList( Yii::$app->params[PARAMS_CONNECTIONS_CHECK_INTERVALS] ) ?>
+
+    <?= $form->field( $model, 'email' )->textInput() ?>
 
     <?= $form->field( $model, 'is_active' )->checkbox() ?>
 

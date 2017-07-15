@@ -9,7 +9,7 @@ $this->title = 'Page "' . $name . '"';
 
     <h2>Leadgen Forms</h2>
 <?php
-/** @var \app\models\ScalarLeadForm $leadForm */
+/** @var \app\models\scalar\ScalarLeadForm $leadForm */
 foreach ( $leadForms as $leadForm ):
     ?>
     <dl class="dl-horizontal">

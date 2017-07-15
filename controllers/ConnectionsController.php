@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Connections;
-use app\models\ConnectionsSearch;
+use app\models\activerecord\Connections;
+use app\models\activerecord\ConnectionsSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

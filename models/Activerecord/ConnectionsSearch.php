@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\activerecord;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -17,6 +17,7 @@ class ConnectionsSearch extends Connections
     {
         return [
             [['id', 'ruleset_id', 'client_id', 'check_interval', 'is_active'], 'integer'],
+            [['email'], 'email'],
             [['last_time_checked'], 'safe'],
         ];
     }
@@ -62,6 +63,7 @@ class ConnectionsSearch extends Connections
             'client_id' => $this->client_id,
             'check_interval' => $this->check_interval,
             'last_time_checked' => $this->last_time_checked,
+            'email' => $this->email,
             'is_active' => $this->is_active,
         ]);
 

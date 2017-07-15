@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Connections */
+/* @var $model app\models\activerecord\Connections */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Connections', 'url' => ['index']];
@@ -30,7 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'ruleset_id',
             'client_id',
             'check_interval',
+            'email',
             'last_time_checked',
+            'last_lead_time',
             'is_active',
         ],
     ]) ?>

@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Connections */
+/* @var $model app\models\activerecord\Connections */
 
 $this->title = 'Update Connections: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Connections', 'url' => ['index']];

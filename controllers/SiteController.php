@@ -4,10 +4,10 @@ namespace app\controllers;
 
 use app\models\ADFGenerator;
 use app\models\FbToken;
-use app\models\Rulesets;
-use app\models\ScalarLeadForm;
-use app\models\ScalarLeadgenForm;
-use app\models\ScalarPage;
+use app\models\activerecord\Rulesets;
+use app\models\scalar\ScalarLeadForm;
+use app\models\scalar\ScalarLeadgenForm;
+use app\models\scalar\ScalarPage;
 use FacebookAds\Api;
 use FacebookAds\Http\RequestInterface;
 use FacebookAds\Object\Page;
@@ -17,7 +17,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ScalarBusiness;
+use app\models\scalar\ScalarBusiness;
 use Facebook\Facebook;
 
 class SiteController extends Controller

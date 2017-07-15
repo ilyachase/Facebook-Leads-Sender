@@ -1,6 +1,7 @@
 <?php
 
-namespace app\models;
+namespace app\models\activerecord;
+use app\models\scalar\ScalarFieldConnection;
 
 /**
  * This is the model class for table "rulesets".

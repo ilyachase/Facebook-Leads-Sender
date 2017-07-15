@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ConnectionsSearch */
+/* @var $searchModel app\models\activerecord\ConnectionsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Connections';
@@ -25,8 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'ruleset_id',
             'client_id',
             'check_interval',
-            'last_time_checked',
-            // 'is_active',
+            'email',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

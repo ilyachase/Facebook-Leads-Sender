@@ -1,13 +1,13 @@
 <?php
 
-namespace app\models;
+namespace app\models\scalar;
 
 class ScalarFieldConnection
 {
     const KEY_QUESTION = 'question';
     const KEY_ADF_FIELD_ID = 'ADFFieldId';
 
-    /** @var int */
+    /** @var string */
     public $leadgenFieldId;
 
     /** @var string */
@@ -24,7 +24,7 @@ class ScalarFieldConnection
      */
     public function __construct( $leadFormFileId, array $data )
     {
-        $this->leadgenFieldId = $leadFormFileId;
+        $this->leadgenFieldId = (string) $leadFormFileId;
         $this->ADFfieldId = $data[self::KEY_ADF_FIELD_ID];
         $this->leadgenFieldQuestion = $data[self::KEY_QUESTION];
     }

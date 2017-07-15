@@ -1,5 +1,5 @@
 <?php
-/** @var \app\models\ScalarLeadgenForm $leadgenForm */
+/** @var \app\models\scalar\ScalarLeadgenForm $leadgenForm */
 use yii\helpers\Url;
 
 $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
@@ -20,11 +20,11 @@ $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
     <?php foreach ( $leadgenForm->fields as $field ): ?>
         <div class="col-sm-4 col-sm-offset-1">
             <p class="form-control-static"><?= $field->question ?></p>
-            <input type="hidden" name="fieldConnections[<?= $field->id ?>][<?= \app\models\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->question ?>">
+            <input type="hidden" name="fieldConnections[<?= $field->id ?>][<?= \app\models\scalar\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->question ?>">
         </div>
         <div class="form-group">
             <div class="col-sm-4">
-                <select class="form-control" name="fieldConnections[<?= $field->id ?>][<?= \app\models\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
+                <select class="form-control" name="fieldConnections[<?= $field->id ?>][<?= \app\models\scalar\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
                     <?= $selectOptions ?>
                 </select>
             </div>
