@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ADFGenerator;
+use app\models\FbToken;
 use app\models\Rulesets;
 use app\models\ScalarLeadForm;
 use app\models\ScalarLeadgenForm;
@@ -21,11 +22,11 @@ use Facebook\Facebook;
 
 class SiteController extends Controller
 {
-    /** @var Facebook */
-    private $_fbApi;
-
     /** @var string */
     private $_userId;
+
+    /** @var FbToken */
+    private $_fbToken;
 
     /**
      * @inheritdoc
@@ -69,23 +70,6 @@ class SiteController extends Controller
         ];
     }
 
-    public function init()
-    {
-        parent::init();
-
-        Api::init(
-            Yii::$app->params[PARAMS_FB_APP_ID],
-            Yii::$app->params[PARAMS_FB_APP_SECRET],
-            Yii::$app->session['facebook_access_token']
-        );
-
-        $this->_fbApi = new Facebook( [
-            PARAMS_FB_APP_ID          => Yii::$app->params[PARAMS_FB_APP_ID],
-            PARAMS_FB_APP_SECRET      => Yii::$app->params[PARAMS_FB_APP_SECRET],
-            'persistent_data_handler' => 'session',
-        ] );
-    }
-
     /**
      * @param \yii\base\Action $action
      *
@@ -102,12 +86,20 @@ class SiteController extends Controller
             return true;
         }
 
-        if ( !isset( Yii::$app->session['facebook_access_token'] ) && Yii::$app->request->getUrl() != '/' && false === strpos( Yii::$app->request->getUrl(), 'code' ) )
+        $this->_fbToken = new FbToken();
+
+        if ( !( $token = $this->_fbToken->getToken() ) && Yii::$app->request->getUrl() != '/' && false === strpos( Yii::$app->request->getUrl(), 'code' ) )
         {
             Yii::$app->session['back_url'] = Yii::$app->request->getUrl();
             $this->redirect( '/' );
             return false;
         }
+
+        Api::init(
+            Yii::$app->params[PARAMS_FB_APP_ID],
+            Yii::$app->params[PARAMS_FB_APP_SECRET],
+            $token
+        );
 
         try
         {
@@ -117,8 +109,6 @@ class SiteController extends Controller
         }
         catch ( \FacebookAds\Http\Exception\AuthorizationException $e )
         {
-            // TODO: try to prolong access token
-            unset( Yii::$app->session['facebook_access_token'] );
             if ( Yii::$app->request->getUrl() != '/' && false === strpos( Yii::$app->request->getUrl(), 'code' ) )
             {
                 Yii::$app->session['back_url'] = Yii::$app->request->getUrl();
@@ -146,29 +136,42 @@ class SiteController extends Controller
             Yii::$app->session->open();
         }
 
-        if ( !Yii::$app->session['facebook_access_token'] )
+        if ( !$this->_fbToken->getToken() )
         {
             if ( !session_id() )
             {
                 session_start();
             }
 
-            $helper = $this->_fbApi->getRedirectLoginHelper();
-            Yii::$app->session['facebook_access_token'] = (string) $helper->getAccessToken();
+            $fbApi = new Facebook( [
+                PARAMS_FB_APP_ID          => Yii::$app->params[PARAMS_FB_APP_ID],
+                PARAMS_FB_APP_SECRET      => Yii::$app->params[PARAMS_FB_APP_SECRET],
+                'persistent_data_handler' => 'session',
+            ] );
 
-            if ( !Yii::$app->session['facebook_access_token'] )
+            $helper = $fbApi->getRedirectLoginHelper();
+            $token = (string) $helper->getAccessToken();
+
+            if ( !$token )
             {
                 $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, Yii::$app->params[PARAMS_FB_SCOPES] );
                 Yii::$app->params['warning'] = 'In order to work with the system, you should <a href="' . $loginUrl . '">log in with Facebook</a> first.';
                 return $this->render( 'fb_login' );
             }
-        }
+            else
+            {
+                $token = (string) $fbApi->getOAuth2Client()->getLongLivedAccessToken( $token );
+                $this->_fbToken->setToken( $token );
 
-        if ( isset( Yii::$app->session['back_url'] ) )
-        {
-            $redirectUrl = Yii::$app->session['back_url'];
-            unset( Yii::$app->session['back_url'] );
-            return $this->redirect( $redirectUrl );
+                if ( isset( Yii::$app->session['back_url'] ) )
+                {
+                    $redirectUrl = Yii::$app->session['back_url'];
+                    unset( Yii::$app->session['back_url'] );
+                    return $this->redirect( $redirectUrl );
+                }
+
+                return $this->goHome();
+            }
         }
 
         $businesses = [];

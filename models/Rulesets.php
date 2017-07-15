@@ -7,7 +7,6 @@ namespace app\models;
  *
  * @property integer $id
  * @property integer $leadform_id
- * @property string $content
  */
 class Rulesets extends \yii\db\ActiveRecord
 {
@@ -30,6 +29,18 @@ class Rulesets extends \yii\db\ActiveRecord
         return [
             [ [ 'content' ], 'string' ],
         ];
+    }
+
+    public static function findOne( $condition )
+    {
+        /** @var Rulesets $ruleset */
+        $ruleset = parent::findOne( $condition );
+        if ( $ruleset )
+        {
+            $ruleset->fieldConnections = unserialize( $ruleset->content );
+        }
+
+        return $ruleset;
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+const DS = DIRECTORY_SEPARATOR;
 const PARAMS_FB_APP_ID = 'app_id';
 const PARAMS_FB_APP_SECRET = 'app_secret';
 const PARAMS_FB_SCOPES = 'scopes';

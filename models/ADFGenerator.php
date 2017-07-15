@@ -33,7 +33,7 @@ class ADFGenerator
                     'latestdate'   => true,
                 ],
                 'contact'   => $this->_ADFPartContact,
-            ]
+            ],
         ];
     }
 
