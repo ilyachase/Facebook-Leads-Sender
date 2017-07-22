@@ -3,6 +3,7 @@
 namespace app\commands;
 
 use app\models\activerecord\Connections;
+use app\models\adf\FBLeadsHelper;
 use app\models\adf\Leadfieldshelper;
 use app\models\ADFGenerator;
 use app\models\FbToken;
@@ -72,6 +73,8 @@ class AdfController extends Controller
                 $connection->last_time_checked = Yii::$app->formatter->asDatetime( time(), FORMATTER_MYSQL_DATETIME_FORMAT );
                 $connection->save();
 
+                $connectionLastLeadTimestamp = (int) Yii::$app->formatter->asTimestamp( $connection->last_lead_time );
+
                 $ruleset = Rulesets::findOne( [ 'id' => $connection->ruleset_id ] );
                 if ( !$ruleset )
                     throw new Exception( "Can't find ruleset with id $connection->ruleset_id for connection $connection->id" );
@@ -80,13 +83,14 @@ class AdfController extends Controller
                 $fieldsHelper = new Leadfieldshelper( $formFields['qualifiers'], $ruleset->fieldConnections );
 
                 $leads = ( new LeadgenForm( $ruleset->leadform_id ) )->getLeads();
+                $leadsHelper = new FBLeadsHelper( $leads );
                 if ( !$leads->count() )
                 {
                     $this->log( "Form $ruleset->leadform_id have no leads. Continue..." );
                     continue;
                 }
 
-                if ( \DateTime::createFromFormat( \DateTime::W3C, $leads->current()->getData()['created_time'] )->getTimestamp() <= Yii::$app->formatter->asTimestamp( $connection->last_lead_time ) )
+                if ( $leadsHelper->getLastLeadTimestamp() <= $connectionLastLeadTimestamp )
                 {
                     $this->log( "Form $ruleset->leadform_id have no new leads. Continue..." );
                     continue;
@@ -95,18 +99,20 @@ class AdfController extends Controller
                 /** @var \FacebookAds\Object\Lead $lead */
                 $leadsSendedCounter = 0;
                 $adfData = [];
-                foreach ( $leads as $lead )
+                foreach ( $leadsHelper->getLeadsAfterTimestamp( $connectionLastLeadTimestamp ) as $lead )
                 {
                     $lead = $lead->getData();
                     $leadData = $fieldsHelper->getAdfFieldsByLead( $lead['field_data'] );
                     if ( empty( $leadData ) )
                         continue;
 
+                    if ( \DateTime::createFromFormat( \DateTime::W3C, $lead['created_time'] )->getTimestamp() <= $connectionLastLeadTimestamp )
+                        continue;
+
                     $adfData[] = $leadData;
 
                     $leadCreatedTime = \DateTime::createFromFormat( \DateTime::W3C, $lead['created_time'] );
-
-                    if ( $leadCreatedTime->getTimestamp() > (int) Yii::$app->formatter->asTimestamp( $connection->last_lead_time ) )
+                    if ( $leadCreatedTime->getTimestamp() > $connectionLastLeadTimestamp )
                     {
                         $connection->last_lead_time = $leadCreatedTime->format( MYSQL_DATETIME_FORMAT );
                     }
