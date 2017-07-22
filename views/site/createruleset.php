@@ -1,5 +1,8 @@
 <?php
-/** @var \app\models\scalar\ScalarLeadgenForm $leadgenForm */
+/**
+ * @var \app\models\scalar\ScalarLeadgenForm $leadgenForm
+ * @var string $selectOptions
+ */
 use yii\helpers\Url;
 
 $this->title = 'Leadgen form "' . $leadgenForm->name . '"';

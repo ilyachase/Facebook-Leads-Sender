@@ -94,22 +94,15 @@ class AdfController extends Controller
 
                 /** @var \FacebookAds\Object\Lead $lead */
                 $leadsSendedCounter = 0;
+                $adfData = [];
                 foreach ( $leads as $lead )
                 {
                     $lead = $lead->getData();
-                    $adfData = $fieldsHelper->getAdfFieldsByLead( $lead['field_data'] );
-                    if ( empty( $adfData ) )
+                    $leadData = $fieldsHelper->getAdfFieldsByLead( $lead['field_data'] );
+                    if ( empty( $leadData ) )
                         continue;
 
-                    $xmlString = $generator->generateADF( $adfData );
-
-                    //TODO: more options in connection
-                    \Yii::$app->mailer->compose()
-                        ->setFrom( [ 'admin@clcdatahub.com' => 'Facebook leads sender' ] )
-                        ->setTo( $connection->email )
-                        ->setSubject( "Test subject" )
-                        ->setTextBody( $xmlString )
-                        ->send();
+                    $adfData[] = $leadData;
 
                     $leadCreatedTime = \DateTime::createFromFormat( \DateTime::W3C, $lead['created_time'] );
 
@@ -120,6 +113,16 @@ class AdfController extends Controller
 
                     $leadsSendedCounter++;
                 }
+
+                $xmlString = $generator->generateADF( $adfData );
+
+                //TODO: more options in connection
+                \Yii::$app->mailer->compose()
+                    ->setFrom( [ 'admin@clcdatahub.com' => 'Facebook leads sender' ] )
+                    ->setTo( $connection->email )
+                    ->setSubject( "Test subject" )
+                    ->setTextBody( $xmlString )
+                    ->send();
 
                 $connection->save();
 

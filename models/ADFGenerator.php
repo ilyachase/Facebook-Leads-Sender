@@ -92,24 +92,31 @@ class ADFGenerator
     {
         $resultXml = new \DOMDocument( '1.0' );
         $resultXml->loadXML( '<?ADF VERSION="1.0"?><adf></adf>' );
-        foreach ( $this->extractADFFields( $this->_ADFFullStructure ) as $fieldPath )
+        $adf = $resultXml->getElementsByTagName( 'adf' )->item( 0 );
+        $i = 0;
+        foreach ( $adfData as $leadData )
         {
-            if ( isset( $adfData[implode( '_', $fieldPath )] ) )
+            $adf->appendChild( ( new \DOMElement( 'prospect' ) ) );
+            foreach ( $this->extractADFFields( $this->_ADFFullStructure ) as $fieldPath )
             {
-                $tagValue = htmlspecialchars( trim( $adfData[implode( '_', $fieldPath )] ) );
-                $parent = $resultXml->getElementsByTagName( 'adf' )->item( 0 );
-                foreach ( $fieldPath as $tagName )
+                if ( isset( $leadData[implode( '_', $fieldPath )] ) )
                 {
-                    if ( $parent->getElementsByTagName( $tagName )->length == 0 )
+                    $tagValue = htmlspecialchars( trim( $leadData[implode( '_', $fieldPath )] ) );
+                    $parent = $resultXml->getElementsByTagName( 'prospect' )->item( $i );
+                    foreach ( $fieldPath as $tagName )
                     {
-                        $newNode = new \DOMElement( $tagName );
-                        $parent->appendChild( $newNode );
-                    }
+                        if ( $parent->getElementsByTagName( $tagName )->length == 0 )
+                        {
+                            $newNode = new \DOMElement( $tagName );
+                            $parent->appendChild( $newNode );
+                        }
 
-                    $parent = $parent->getElementsByTagName( $tagName )->item( 0 );
+                        $parent = $parent->getElementsByTagName( $tagName )->item( 0 );
+                    }
+                    $parent->nodeValue .= $tagValue;
                 }
-                $parent->nodeValue .= $tagValue;
             }
+            $i++;
         }
 
         return $resultXml->saveXML();
