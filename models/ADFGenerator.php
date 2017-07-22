@@ -25,6 +25,7 @@ class ADFGenerator
     {
         $this->_ADFFullStructure = [
             'customer' => [
+                'contact'   => $this->_ADFPartContact,
                 'id'        => true,
                 'comments'  => true,
                 'timeframe' => [
@@ -32,7 +33,6 @@ class ADFGenerator
                     'earliestdate' => true,
                     'latestdate'   => true,
                 ],
-                'contact'   => $this->_ADFPartContact,
             ],
         ];
     }
@@ -76,10 +76,42 @@ class ADFGenerator
             {
                 $fieldPath = array_merge( $fieldPath, [ $fieldName ] );
                 $this->extractADFFields( $value, $result, $fieldPath );
-                $fieldPath = [];
+                array_pop( $fieldPath );
             }
         }
 
         return $result;
+    }
+
+    /**
+     * @param array $adfData
+     *
+     * @return string
+     */
+    public function generateADF( array $adfData )
+    {
+        $resultXml = new \DOMDocument( '1.0' );
+        $resultXml->loadXML( '<?ADF VERSION="1.0"?><adf></adf>' );
+        foreach ( $this->extractADFFields( $this->_ADFFullStructure ) as $fieldPath )
+        {
+            if ( isset( $adfData[implode( '_', $fieldPath )] ) )
+            {
+                $tagValue = htmlspecialchars( trim( $adfData[implode( '_', $fieldPath )] ) );
+                $parent = $resultXml->getElementsByTagName( 'adf' )->item( 0 );
+                foreach ( $fieldPath as $tagName )
+                {
+                    if ( $parent->getElementsByTagName( $tagName )->length == 0 )
+                    {
+                        $newNode = new \DOMElement( $tagName );
+                        $parent->appendChild( $newNode );
+                    }
+
+                    $parent = $parent->getElementsByTagName( $tagName )->item( 0 );
+                }
+                $parent->nodeValue .= $tagValue;
+            }
+        }
+
+        return $resultXml->saveXML();
     }
 }

@@ -11,7 +11,7 @@ namespace app\models\activerecord;
  * @property integer $check_interval
  * @property string $last_time_checked
  * @property string $email
- * @property integer $last_lead_time
+ * @property string $last_lead_time
  * @property integer $is_active
  */
 class Connections extends \yii\db\ActiveRecord
@@ -33,7 +33,6 @@ class Connections extends \yii\db\ActiveRecord
             [['ruleset_id', 'client_id', 'check_interval', 'is_active'], 'integer'],
             [['email'], 'email'],
             [['ruleset_id', 'check_interval', 'is_active', 'email'], 'required'],
-            [['last_time_checked'], 'safe'],
         ];
     }
 

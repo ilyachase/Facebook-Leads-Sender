@@ -11,8 +11,10 @@ class m170711_145159_connections_table_creation extends Migration
             'ruleset_id'        => $this->bigInteger(),
             'client_id'         => $this->bigInteger(),
             'check_interval'    => $this->integer(),
-            'last_time_checked' => $this->timestamp(),
+            'last_time_checked' => $this->dateTime(),
             'is_active'         => $this->boolean(),
+            'last_lead_time'    => $this->dateTime(),
+            'email'             => $this->string( 255 ),
             'KEY `check_interval_is_active` (check_interval, is_active)',
             'KEY `client_id` (client_id)',
         ] );

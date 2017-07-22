@@ -3,6 +3,8 @@
 namespace app\commands;
 
 use app\models\activerecord\Connections;
+use app\models\adf\Leadfieldshelper;
+use app\models\ADFGenerator;
 use app\models\FbToken;
 use app\models\activerecord\Rulesets;
 use FacebookAds\Api;
@@ -54,6 +56,7 @@ class AdfController extends Controller
     public function actionIndex()
     {
         $currentMinutes = (int) date( 'G' ) * 60 + (int) date( 'i' );
+        $generator = new ADFGenerator();
         $this->log( "ADF generation script started working." );
         $this->log( "Current minutes: $currentMinutes" );
 
@@ -66,12 +69,15 @@ class AdfController extends Controller
             foreach ( $connections as $connection )
             {
                 $this->log( "Found connection with id = $connection->id" );
+                $connection->last_time_checked = Yii::$app->formatter->asDatetime( time(), FORMATTER_MYSQL_DATETIME_FORMAT );
+                $connection->save();
 
                 $ruleset = Rulesets::findOne( [ 'id' => $connection->ruleset_id ] );
                 if ( !$ruleset )
                     throw new Exception( "Can't find ruleset with id $connection->ruleset_id for connection $connection->id" );
 
-                $formData = Api::instance()->call( "/$ruleset->leadform_id", RequestInterface::METHOD_GET, [ 'fields' => 'id,name,qualifiers' ] )->getContent();
+                $formFields = Api::instance()->call( "/$ruleset->leadform_id", RequestInterface::METHOD_GET, [ 'fields' => 'id,name,qualifiers' ] )->getContent();
+                $fieldsHelper = new Leadfieldshelper( $formFields['qualifiers'], $ruleset->fieldConnections );
 
                 $leads = ( new LeadgenForm( $ruleset->leadform_id ) )->getLeads();
                 if ( !$leads->count() )
@@ -80,13 +86,48 @@ class AdfController extends Controller
                     continue;
                 }
 
+                if ( \DateTime::createFromFormat( \DateTime::W3C, $leads->current()->getData()['created_time'] )->getTimestamp() <= Yii::$app->formatter->asTimestamp( $connection->last_lead_time ) )
+                {
+                    $this->log( "Form $ruleset->leadform_id have no new leads. Continue..." );
+                    continue;
+                }
+
                 /** @var \FacebookAds\Object\Lead $lead */
+                $leadsSendedCounter = 0;
                 foreach ( $leads as $lead )
                 {
+                    $lead = $lead->getData();
+                    $adfData = $fieldsHelper->getAdfFieldsByLead( $lead['field_data'] );
+                    if ( empty( $adfData ) )
+                        continue;
 
+                    $xmlString = $generator->generateADF( $adfData );
+
+                    //TODO: more options in connection
+                    \Yii::$app->mailer->compose()
+                        ->setFrom( [ 'admin@clcdatahub.com' => 'Facebook leads sender' ] )
+                        ->setTo( $connection->email )
+                        ->setSubject( "Test subject" )
+                        ->setTextBody( $xmlString )
+                        ->send();
+
+                    $leadCreatedTime = \DateTime::createFromFormat( \DateTime::W3C, $lead['created_time'] );
+
+                    if ( $leadCreatedTime->getTimestamp() > (int) Yii::$app->formatter->asTimestamp( $connection->last_lead_time ) )
+                    {
+                        $connection->last_lead_time = $leadCreatedTime->format( MYSQL_DATETIME_FORMAT );
+                    }
+
+                    $leadsSendedCounter++;
                 }
+
+                $connection->save();
+
+                $this->log( "Sended $leadsSendedCounter leads to $connection->email." );
             }
         }
+
+        $this->log( "Done." );
     }
 
     private function log( $message, $eol = true )

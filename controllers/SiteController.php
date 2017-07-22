@@ -237,7 +237,7 @@ class SiteController extends Controller
      */
     public function actionBusinessdetails( $id )
     {
-        $businessName = Api::instance()->call( "/940459386005248", 'GET' )->getContent()['name'];
+        $businessName = Api::instance()->call( "/$id", 'GET' )->getContent()['name'];
 
         $pages = [];
         foreach ( Api::instance()->call( "/$id/pages", "GET" )->getContent()['data'] as $pageData )

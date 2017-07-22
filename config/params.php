@@ -1,6 +1,9 @@
 <?php
 
 const DS = DIRECTORY_SEPARATOR;
+const FORMATTER_MYSQL_DATETIME_FORMAT = 'php:Y-m-d H:i:s';
+const MYSQL_DATETIME_FORMAT = 'Y-m-d H:i:s';
+
 const PARAMS_FB_APP_ID = 'app_id';
 const PARAMS_FB_APP_SECRET = 'app_secret';
 const PARAMS_FB_SCOPES = 'scopes';

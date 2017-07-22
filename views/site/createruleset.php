@@ -6,7 +6,7 @@ $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
 ?>
 
 <h3>Ruleset creating form</h3>
-<p class="text-info">
+<p>
     To create a ruleset you should select ADF field (right coulmn) for each field from Leadgen form (left column) and then submit the form.
     <br/>After that you will able to use this ruleset at <a href="<?= Url::to( [ 'site/connections' ] ) ?>">connections page</a>.
 </p>
@@ -32,7 +32,7 @@ $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
     <?php endforeach; ?>
     <div class="form-group">
         <div class="col-sm-8 col-sm-offset-1">
-            <button type="submit" class="btn btn-success pull-right">Submit</button>
+            <button class="btn btn-success pull-right">Submit</button>
         </div>
     </div>
 </form>
