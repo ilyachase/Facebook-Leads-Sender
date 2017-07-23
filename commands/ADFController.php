@@ -6,6 +6,7 @@ use app\models\activerecord\Connections;
 use app\models\adf\FBLeadsHelper;
 use app\models\adf\Leadfieldshelper;
 use app\models\ADFGenerator;
+use app\models\activerecord\Destinations;
 use app\models\FbToken;
 use app\models\activerecord\Rulesets;
 use FacebookAds\Api;
@@ -79,6 +80,10 @@ class AdfController extends Controller
                 if ( !$ruleset )
                     throw new Exception( "Can't find ruleset with id $connection->ruleset_id for connection $connection->id" );
 
+                $destination = Destinations::findOne( [ 'id' => $connection->destination_id ] );
+                if ( !$destination )
+                    throw new Exception( "Can't find destination with id $connection->destination_id for connection $connection->id" );
+
                 $formFields = Api::instance()->call( "/$ruleset->leadform_id", RequestInterface::METHOD_GET, [ 'fields' => 'id,name,qualifiers' ] )->getContent();
                 $fieldsHelper = new Leadfieldshelper( $formFields['qualifiers'], $ruleset->fieldConnections );
 
@@ -122,17 +127,31 @@ class AdfController extends Controller
 
                 $xmlString = $generator->generateADF( $adfData );
 
-                //TODO: more options in connection
-                \Yii::$app->mailer->compose()
-                    ->setFrom( [ 'admin@clcdatahub.com' => 'Facebook leads sender' ] )
-                    ->setTo( $connection->email )
-                    ->setSubject( "Test subject" )
-                    ->setTextBody( $xmlString )
-                    ->send();
+                $message = \Yii::$app->mailer->compose()
+                    ->setTo( $destination->email_to )
+                    ->setSubject( $destination->subject )
+                    ->setTextBody( $xmlString );
+
+                if ( $destination->email_from )
+                {
+                    $message->setFrom( $destination->email_from );
+                }
+                else
+                {
+                    $message->setFrom( DEFAULT_EMAIL_FROM );
+                }
+
+                if ( $destination->cc )
+                    $message->setCc( $destination->cc );
+
+                if ( $destination->bcc )
+                    $message->setBcc( $destination->bcc );
+
+                $message->send();
 
                 $connection->save();
 
-                $this->log( "Sended $leadsSendedCounter leads to $connection->email." );
+                $this->log( "Sended $leadsSendedCounter leads to $destination->email_to." );
             }
         }
 

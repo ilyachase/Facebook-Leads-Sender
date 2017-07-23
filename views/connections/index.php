@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'ruleset_id',
             'client_id',
             'check_interval',
-            'email',
+            'destination_id',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

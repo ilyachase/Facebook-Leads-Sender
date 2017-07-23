@@ -6,9 +6,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * ConnectionsSearch represents the model behind the search form about `app\models\Connections`.
+ * DestinationsSearch represents the model behind the search form about `app\models\activerecord\Destinations`.
  */
-class ConnectionsSearch extends Connections
+class DestinationsSearch extends Destinations
 {
     /**
      * @inheritdoc
@@ -16,8 +16,8 @@ class ConnectionsSearch extends Connections
     public function rules()
     {
         return [
-            [['id', 'ruleset_id', 'client_id', 'check_interval', 'is_active', 'destination_id'], 'integer'],
-            [['last_time_checked'], 'safe'],
+            [['id', 'client_id', 'content_type'], 'integer'],
+            [['name', 'email_to', 'cc', 'bcc', 'subject'], 'safe'],
         ];
     }
 
@@ -39,7 +39,7 @@ class ConnectionsSearch extends Connections
      */
     public function search($params)
     {
-        $query = Connections::find();
+        $query = Destinations::find();
 
         // add conditions that should always apply here
 
@@ -58,13 +58,15 @@ class ConnectionsSearch extends Connections
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'ruleset_id' => $this->ruleset_id,
             'client_id' => $this->client_id,
-            'check_interval' => $this->check_interval,
-            'last_time_checked' => $this->last_time_checked,
-            'destination_id' => $this->destination_id,
-            'is_active' => $this->is_active,
+            'content_type' => $this->content_type,
         ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'email_to', $this->email_to])
+            ->andFilterWhere(['like', 'cc', $this->cc])
+            ->andFilterWhere(['like', 'bcc', $this->bcc])
+            ->andFilterWhere(['like', 'subject', $this->subject]);
 
         return $dataProvider;
     }

@@ -23,7 +23,7 @@ class m170711_145159_connections_table_creation extends Migration
     public function safeDown()
     {
         $this->dropTable( 'connections' );
-        return;
+        return true;
     }
 
     /*

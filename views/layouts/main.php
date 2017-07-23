@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use yii\helpers\Html;
@@ -37,6 +38,7 @@ AppAsset::register( $this );
         'items'   => [
             [ 'label' => 'Home', 'url' => [ '/site/index' ] ],
             [ 'label' => 'Connections', 'url' => [ '/connections/index' ] ],
+            [ 'label' => 'Destinations', 'url' => [ '/destinations/index' ] ],
         ],
     ] );
     echo Nav::widget( [

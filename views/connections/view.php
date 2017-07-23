@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'ruleset_id',
             'client_id',
             'check_interval',
-            'email',
+            'destination_id',
             'last_time_checked',
             'last_lead_time',
             'is_active',
