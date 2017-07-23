@@ -39,6 +39,7 @@ AppAsset::register( $this );
             [ 'label' => 'Home', 'url' => [ '/site/index' ] ],
             [ 'label' => 'Connections', 'url' => [ '/connections/index' ] ],
             [ 'label' => 'Destinations', 'url' => [ '/destinations/index' ] ],
+            [ 'label' => 'Clients', 'url' => [ '/clients/index' ] ],
         ],
     ] );
     echo Nav::widget( [
@@ -92,9 +93,7 @@ AppAsset::register( $this );
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date( 'Y' ) ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-left">&copy; Facebook Leads Sender <?= date( 'Y' ) ?></p>
     </div>
 </footer>
 
