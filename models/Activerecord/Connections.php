@@ -30,8 +30,8 @@ class Connections extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ruleset_id', 'client_id', 'check_interval', 'is_active', 'destination_id'], 'integer'],
-            [['ruleset_id', 'check_interval', 'is_active'], 'required'],
+            [ [ 'ruleset_id', 'client_id', 'check_interval', 'is_active', 'destination_id' ], 'integer' ],
+            [ [ 'ruleset_id', 'check_interval', 'destination_id', 'is_active' ], 'required' ],
         ];
     }
 
@@ -41,12 +41,12 @@ class Connections extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'ruleset_id' => 'Ruleset ID',
-            'client_id' => 'Client ID',
-            'check_interval' => 'Check Interval',
+            'id'                => 'ID',
+            'ruleset_id'        => 'Ruleset ID',
+            'client_id'         => 'Client ID',
+            'check_interval'    => 'Check Interval',
             'last_time_checked' => 'Last Time Checked',
-            'is_active' => 'Is Active',
+            'is_active'         => 'Is Active',
         ];
     }
 
@@ -56,6 +56,6 @@ class Connections extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new ConnectionsQuery(get_called_class());
+        return new ConnectionsQuery( get_called_class() );
     }
 }

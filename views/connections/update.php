@@ -2,6 +2,8 @@
 
 /* @var $this yii\web\View */
 /* @var $model app\models\activerecord\Connections */
+/* @var array $clientsDropdownItems */
+/* @var array $destinationsDropdownItems */
 
 $this->title = 'Update Connections: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Connections', 'url' => ['index']];
@@ -12,6 +14,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'clientsDropdownItems'      => $clientsDropdownItems,
+        'destinationsDropdownItems' => $destinationsDropdownItems,
     ]) ?>
 
 </div>

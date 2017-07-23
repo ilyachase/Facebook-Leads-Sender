@@ -31,8 +31,8 @@ class Destinations extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'content_type'], 'integer'],
-            [['email_to', 'subject'], 'required'],
+            [ [ 'client_id', 'content_type' ], 'integer' ],
+            [ [ 'name', 'email_to', 'subject' ], 'required' ],
         ];
     }
 
@@ -42,14 +42,14 @@ class Destinations extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'client_id' => 'Client ID',
+            'id'           => 'ID',
+            'name'         => 'Name',
+            'client_id'    => 'Client ID',
             'content_type' => 'Content Type',
-            'email_to' => 'Email To',
-            'cc' => 'Cc',
-            'bcc' => 'Bcc',
-            'subject' => 'Subject',
+            'email_to'     => 'Email To',
+            'cc'           => 'Cc',
+            'bcc'          => 'Bcc',
+            'subject'      => 'Subject',
         ];
     }
 }

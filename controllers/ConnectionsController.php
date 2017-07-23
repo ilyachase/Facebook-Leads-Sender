@@ -2,10 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\activerecord\Clients;
+use app\models\activerecord\Destinations;
 use Yii;
 use app\models\activerecord\Connections;
 use app\models\activerecord\ConnectionsSearch;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -25,12 +28,12 @@ class ConnectionsController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'allow'   => true,
-                        'roles'   => [ '@' ],
+                        'allow' => true,
+                        'roles' => [ '@' ],
                     ],
                 ],
             ],
-            'verbs' => [
+            'verbs'  => [
                 'class'   => VerbFilter::className(),
                 'actions' => [
                     'delete' => [ 'POST' ],
@@ -85,7 +88,9 @@ class ConnectionsController extends Controller
         else
         {
             return $this->render( 'create', [
-                'model' => $model,
+                'model'                     => $model,
+                'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+                'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
             ] );
         }
     }
@@ -110,6 +115,8 @@ class ConnectionsController extends Controller
         {
             return $this->render( 'update', [
                 'model' => $model,
+                'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+                'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
             ] );
         }
     }

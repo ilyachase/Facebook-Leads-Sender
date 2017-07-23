@@ -45,7 +45,7 @@ AppAsset::register( $this );
     echo Nav::widget( [
         'options' => [ 'class' => 'navbar-nav navbar-right' ],
         'items'   => [
-            [ 'label' => 'Reset', 'url' => [ '/site/reset' ] ],
+            [ 'label' => 'Reset', 'url' => [ '/site/reset' ], 'options' => [ 'title' => 'Reset Facebook session' ] ],
             Yii::$app->user->isGuest ? (
             [ 'label' => 'Login', 'url' => [ '/site/login' ] ]
             ) : (

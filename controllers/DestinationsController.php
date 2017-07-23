@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\activerecord\Clients;
 use Yii;
 use app\models\activerecord\Destinations;
 use app\models\activerecord\DestinationsSearch;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -84,7 +86,8 @@ class DestinationsController extends Controller
         else
         {
             return $this->render( 'create', [
-                'model' => $model,
+                'model'                => $model,
+                'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
             ] );
         }
     }
@@ -109,6 +112,7 @@ class DestinationsController extends Controller
         {
             return $this->render( 'update', [
                 'model' => $model,
+                'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
             ] );
         }
     }

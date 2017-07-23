@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\activerecord\Destinations */
 /* @var $form yii\widgets\ActiveForm */
+/* @var array $clientsDropdownItems */
 ?>
 
 <div class="destinations-form">
@@ -14,7 +15,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field( $model, 'name' )->textInput() ?>
 
-    <?= $form->field( $model, 'client_id' )->textInput() ?>
+    <?= $form->field( $model, 'client_id' )->dropDownList( $clientsDropdownItems ) ?>
 
     <?= $form->field( $model, 'email_from' )->textInput() ?>
 
