@@ -4,6 +4,9 @@ namespace app\models;
 
 class ADFGenerator
 {
+    /**
+     * @var array
+     */
     private $_ADFPartContact = [
         'name'    => true,
         'email'   => true,
@@ -15,7 +18,7 @@ class ADFGenerator
             'regioncode' => true,
             'postalcode' => true,
             'country'    => true,
-        ]
+        ],
     ];
 
     /** @var array */
@@ -34,6 +37,56 @@ class ADFGenerator
                     'latestdate'   => true,
                 ],
             ],
+            'vehicle'  => [
+                'id'               => true,
+                'year'             => true,
+                'make'             => true,
+                'model'            => true,
+                'vin'              => true,
+                'stock'            => true,
+                'trim'             => true,
+                'doors'            => true,
+                'bodystyle'        => true,
+                'transmission'     => true,
+                'odometer'         => true,
+                'condition'        => true,
+                'colorcombination' => [
+                    'interiorcolor' => true,
+                    'exteriorcolor' => true,
+                    'preference'    => true,
+                ],
+                'imagetag'         => true,
+                'price'            => true,
+                'pricecomments'    => true,
+                'option'           => [
+                    'optionname'       => true,
+                    'manufacturercode' => true,
+                    'stock'            => true,
+                    'weighting'        => true,
+                    'price'            => true,
+                ],
+                'finance'          => [
+                    'method'  => true,
+                    'amount'  => true,
+                    'balance' => true,
+                ],
+                'comments'         => true,
+            ],
+            'vendor'   => [
+                'id'         => true,
+                'vendorname' => true,
+                'url'        => true,
+                'contact'    => $this->_ADFPartContact,
+            ],
+            'provider' => [
+                'id'      => true,
+                'name'    => true,
+                'service' => true,
+                'url'     => true,
+                'email'   => true,
+                'phone'   => true,
+                'contact' => $this->_ADFPartContact,
+            ]
         ];
     }
 
