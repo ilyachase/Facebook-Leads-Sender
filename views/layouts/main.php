@@ -40,6 +40,7 @@ AppAsset::register( $this );
             [ 'label' => 'Connections', 'url' => [ '/connections/index' ] ],
             [ 'label' => 'Destinations', 'url' => [ '/destinations/index' ] ],
             [ 'label' => 'Clients', 'url' => [ '/clients/index' ] ],
+            [ 'label' => 'Rulesets', 'url' => [ '/rulesets/index' ] ],
         ],
     ] );
     echo Nav::widget( [

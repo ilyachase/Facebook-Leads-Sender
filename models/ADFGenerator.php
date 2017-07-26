@@ -91,9 +91,11 @@ class ADFGenerator
     }
 
     /**
+     * @param string $selectedOption
+     *
      * @return string
      */
-    public function getADFFieldSelectOptionsHtml()
+    public function getADFFieldSelectOptionsHtml( $selectedOption = '' )
     {
         $outHtml = '';
 
@@ -102,7 +104,8 @@ class ADFGenerator
             $outHtml .= '<optgroup label="' . $rootLabel . '">' . "\n";
             foreach ( $this->extractADFFields( $fieldData ) as $fieldPath )
             {
-                $outHtml .= '<option value="' . implode( '_', array_merge( [ $rootLabel ], $fieldPath ) ) . '">' . implode( ' 	&rarr; ', array_merge( [ $rootLabel ], $fieldPath ) ) . '</option>' . "\n";
+                $value = implode( '_', array_merge( [ $rootLabel ], $fieldPath ) );
+                $outHtml .= '<option' . ( $selectedOption == $value ? ' selected="selected"' : '' ) . ' value="' . $value . '">' . self::GetSingleFieldText( array_merge( [ $rootLabel ], $fieldPath ) ) . '</option>' . "\n";
             }
             $outHtml .= '</optgroup>';
         }
@@ -173,5 +176,20 @@ class ADFGenerator
         }
 
         return $resultXml->saveXML();
+    }
+
+    /**
+     * @param string|array $field
+     *
+     * @return string
+     */
+    public static function GetSingleFieldText( $field )
+    {
+        if ( is_string( $field ) )
+        {
+            $field = explode( '_', $field );
+        }
+
+        return implode( ' 	&rarr; ', $field );
     }
 }

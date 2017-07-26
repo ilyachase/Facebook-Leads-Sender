@@ -13,7 +13,7 @@ class ScalarFieldConnection
     /** @var string */
     public $leadgenFieldQuestion;
 
-    /** @var int */
+    /** @var string */
     public $ADFfieldId;
 
     /**

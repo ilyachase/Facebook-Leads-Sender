@@ -64,16 +64,9 @@ class Rulesets extends \yii\db\ActiveRecord
      */
     public function fillFromPost( $formId, array $post )
     {
-        // TODO: update by id AND leadgen_id
-        if ( $old = self::findOne( [ 'leadform_id' => $formId ] ) )
-        {
-            $this->setIsNewRecord( false );
-            $this->setOldAttributes( $old->getAttributes() );
-        }
-
         foreach ( $post['fieldConnections'] as $leadFormFileId => $data )
         {
-            $this->fieldConnections[] = new ScalarFieldConnection( $leadFormFileId, $data );
+            $this->fieldConnections[$leadFormFileId] = new ScalarFieldConnection( $leadFormFileId, $data );
         }
 
         $this->leadform_id = $formId;
