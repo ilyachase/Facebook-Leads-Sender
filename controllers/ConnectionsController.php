@@ -54,6 +54,7 @@ class ConnectionsController extends Controller
         return $this->render( 'index', [
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
+            'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
         ] );
     }
 
