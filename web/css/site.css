@@ -117,3 +117,7 @@ a.desc:after {
 .page-content p.bg-warning, .page-content p.bg-info, .page-content p.bg-danger, .page-content p.bg-success {
     padding: 15px;
 }
+
+.action-column {
+    width: 85px;
+}

@@ -4,7 +4,7 @@
 /* @var $model app\models\activerecord\Destinations */
 /* @var array $clientsDropdownItems */
 
-$this->title = 'Create Destinations';
+$this->title = 'Create destination';
 $this->params['breadcrumbs'][] = [ 'label' => 'Destinations', 'url' => [ 'index' ] ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

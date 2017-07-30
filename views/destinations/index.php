@@ -1,5 +1,6 @@
 <?php
 
+use app\components\TrivialHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -27,11 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'client_id',
             'content_type',
             'email_to:email',
-            // 'cc',
-            // 'bcc',
-            // 'subject',
 
-            [ 'class' => 'yii\grid\ActionColumn' ],
+            [
+                'class'    => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {duplicate}',
+                'buttons'  => [
+                    'duplicate' => TrivialHelper::DuplicateButton(),
+                ],
+            ],
         ],
     ] ); ?>
     <?php Pjax::end(); ?></div>

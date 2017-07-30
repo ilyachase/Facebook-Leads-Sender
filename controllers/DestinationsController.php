@@ -93,6 +93,30 @@ class DestinationsController extends Controller
     }
 
     /**
+     * @param int $id
+     *
+     * @return string|\yii\web\Response
+     */
+    public function actionDuplicate( $id )
+    {
+        $model = $this->findModel( $id );
+        $model->id = null;
+        $model->setIsNewRecord( true );
+
+        if ( $model->load( Yii::$app->request->post() ) && $model->save() )
+        {
+            return $this->redirect( [ 'view', 'id' => $model->id ] );
+        }
+        else
+        {
+            return $this->render( 'create', [
+                'model'                => $model,
+                'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+            ] );
+        }
+    }
+
+    /**
      * Updates an existing Destinations model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
@@ -111,7 +135,7 @@ class DestinationsController extends Controller
         else
         {
             return $this->render( 'update', [
-                'model' => $model,
+                'model'                => $model,
                 'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
             ] );
         }
