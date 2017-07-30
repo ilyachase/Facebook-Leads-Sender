@@ -39,7 +39,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'content_type',
             'email_to:email',
-
             [
                 'class'    => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {delete} {duplicate}',

@@ -55,6 +55,7 @@ class ConnectionsController extends Controller
             'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
             'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+            'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
         ] );
     }
 
