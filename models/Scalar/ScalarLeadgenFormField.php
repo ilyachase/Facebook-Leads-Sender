@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\scalar;
+namespace app\models\Scalar;
 
 class ScalarLeadgenFormField
 {

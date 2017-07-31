@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\activerecord;
+namespace app\models\Activerecord;
 
 /**
  * This is the model class for table "destinations".

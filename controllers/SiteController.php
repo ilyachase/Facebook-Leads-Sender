@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
-use app\models\scalar\ScalarLeadForm;
-use app\models\scalar\ScalarPage;
+use app\models\Scalar\ScalarLeadForm;
+use app\models\Scalar\ScalarPage;
 use FacebookAds\Api;
 use FacebookAds\Object\Page;
 use Yii;
@@ -11,7 +11,7 @@ use yii\filters\AccessControl;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\scalar\ScalarBusiness;
+use app\models\Scalar\ScalarBusiness;
 use Facebook\Facebook;
 
 class SiteController extends Basecontroller

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\activerecord\Rulesets */
+/* @var $model app\models\Activerecord\Rulesets */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = [ 'label' => 'Rulesets', 'url' => [ 'index' ] ];

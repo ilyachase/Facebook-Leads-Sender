@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\adf;
+namespace app\models\Adf;
 
 class FBLeadsHelper
 {

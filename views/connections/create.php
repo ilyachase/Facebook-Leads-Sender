@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model app\models\activerecord\Connections */
+/* @var $model app\models\Activerecord\Connections */
 /* @var array $clientsDropdownItems */
 /* @var array $destinationsDropdownItems */
 

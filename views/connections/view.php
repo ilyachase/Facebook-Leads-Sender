@@ -1,12 +1,12 @@
 <?php
 
-use app\models\activerecord\Clients;
-use app\models\activerecord\Destinations;
+use app\models\Activerecord\Clients;
+use app\models\Activerecord\Destinations;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\activerecord\Connections */
+/* @var $model app\models\Activerecord\Connections */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = [ 'label' => 'Connections', 'url' => [ 'index' ] ];
@@ -32,20 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'ruleset_id',
             [
                 'label' => 'Client', 'value' => function ( $model ) {
-                /** @var \app\models\activerecord\Connections $model */
+                /** @var \app\models\Activerecord\Connections $model */
                 return Clients::findOne( $model->client_id )->name;
             }
             ],
             [
                 'label' => 'check_interval',
                 'value' => function ( $model ) {
-                    /** @var \app\models\activerecord\Connections $model */
+                    /** @var \app\models\Activerecord\Connections $model */
                     return Yii::$app->params[PARAMS_CONNECTIONS_CHECK_INTERVALS][$model->check_interval];
                 }
             ],
             [
                 'label' => 'Destination', 'value' => function ( $model ) {
-                /** @var \app\models\activerecord\Connections $model */
+                /** @var \app\models\Activerecord\Connections $model */
                 return Destinations::findOne( $model->destination_id )->name;
             }
             ],

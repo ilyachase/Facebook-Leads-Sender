@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model app\models\activerecord\Destinations */
+/* @var $model app\models\Activerecord\Destinations */
 /* @var array $clientsDropdownItems */
 
 $this->title = 'Update Destinations: ' . $model->name;

@@ -4,10 +4,10 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\activerecord\Rulesets;
+use app\models\Activerecord\Rulesets;
 
 /**
- * RulesetsSearch represents the model behind the search form about `app\models\activerecord\Rulesets`.
+ * RulesetsSearch represents the model behind the search form about `app\models\Activerecord\Rulesets`.
  */
 class RulesetsSearch extends Rulesets
 {

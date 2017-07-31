@@ -4,7 +4,7 @@
 
 use app\models\ADFGenerator;
 
-/* @var $model app\models\activerecord\Rulesets */
+/* @var $model app\models\Activerecord\Rulesets */
 
 $this->title = 'Update Rulesets: ' . $model->id;
 $this->params['breadcrumbs'][] = [ 'label' => 'Rulesets', 'url' => [ 'index' ] ];
@@ -24,11 +24,11 @@ $adfGenerator = new ADFGenerator();
     <?php foreach ( $model->fieldConnections as $field ): ?>
         <div class="col-sm-4 col-sm-offset-1">
             <p class="form-control-static"><?= $field->leadgenFieldQuestion ?></p>
-            <input type="hidden" name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\scalar\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->leadgenFieldQuestion ?>">
+            <input type="hidden" name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->leadgenFieldQuestion ?>">
         </div>
         <div class="form-group">
             <div class="col-sm-4">
-                <select class="form-control" name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\scalar\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
+                <select class="form-control" name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
                     <?= $adfGenerator->getADFFieldSelectOptionsHtml( $field->ADFfieldId ) ?>
                 </select>
             </div>

@@ -3,11 +3,11 @@
 namespace app\controllers;
 
 use app\models\ADFGenerator;
-use app\models\scalar\ScalarLeadgenForm;
+use app\models\Scalar\ScalarLeadgenForm;
 use FacebookAds\Api;
 use FacebookAds\Http\RequestInterface;
 use Yii;
-use app\models\activerecord\Rulesets;
+use app\models\Activerecord\Rulesets;
 use app\models\RulesetsSearch;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;

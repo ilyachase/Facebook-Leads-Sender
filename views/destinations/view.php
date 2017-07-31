@@ -1,11 +1,11 @@
 <?php
 
-use app\models\activerecord\Clients;
+use app\models\Activerecord\Clients;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\activerecord\Destinations */
+/* @var $model app\models\Activerecord\Destinations */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = [ 'label' => 'Destinations', 'url' => [ 'index' ] ];
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             [
                 'label' => 'Client', 'value' => function ( $model ) {
-                /** @var \app\models\activerecord\Destinations $model */
+                /** @var \app\models\Activerecord\Destinations $model */
                 return Clients::findOne( $model->client_id )->name;
             }
             ],

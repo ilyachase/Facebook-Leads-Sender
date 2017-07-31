@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\activerecord;
+namespace app\models\Activerecord;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

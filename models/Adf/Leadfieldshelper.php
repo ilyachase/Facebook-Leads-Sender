@@ -1,8 +1,8 @@
 <?php
 
-namespace app\models\adf;
+namespace app\models\Adf;
 
-use app\models\scalar\ScalarFieldConnection;
+use app\models\Scalar\ScalarFieldConnection;
 
 class Leadfieldshelper
 {

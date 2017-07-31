@@ -3,8 +3,8 @@
 
 /**
  * @var $this yii\web\View
- * @var $model app\models\activerecord\Rulesets
- * @var \app\models\scalar\ScalarLeadgenForm $leadgenForm
+ * @var $model app\models\Activerecord\Rulesets
+ * @var \app\models\Scalar\ScalarLeadgenForm $leadgenForm
  * @var string $selectOptions
  */
 
@@ -31,11 +31,11 @@ $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
     <?php foreach ( $leadgenForm->fields as $field ): ?>
         <div class="col-sm-4 col-sm-offset-1">
             <p class="form-control-static"><?= $field->question ?></p>
-            <input type="hidden" name="fieldConnections[<?= $field->id ?>][<?= \app\models\scalar\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->question ?>">
+            <input type="hidden" name="fieldConnections[<?= $field->id ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->question ?>">
         </div>
         <div class="form-group">
             <div class="col-sm-4">
-                <select class="form-control" name="fieldConnections[<?= $field->id ?>][<?= \app\models\scalar\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
+                <select class="form-control" name="fieldConnections[<?= $field->id ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
                     <?= $selectOptions ?>
                 </select>
             </div>

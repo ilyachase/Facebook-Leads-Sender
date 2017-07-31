@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\activerecord\Connections */
+/* @var $model app\models\Activerecord\Connections */
 /* @var $form yii\widgets\ActiveForm */
 /* @var array $clientsDropdownItems */
 /* @var array $destinationsDropdownItems */

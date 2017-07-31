@@ -2,13 +2,13 @@
 
 namespace app\commands;
 
-use app\models\activerecord\Connections;
-use app\models\adf\FBLeadsHelper;
-use app\models\adf\Leadfieldshelper;
+use app\models\Activerecord\Connections;
+use app\models\Adf\FBLeadsHelper;
+use app\models\Adf\Leadfieldshelper;
 use app\models\ADFGenerator;
-use app\models\activerecord\Destinations;
+use app\models\Activerecord\Destinations;
 use app\models\FbToken;
-use app\models\activerecord\Rulesets;
+use app\models\Activerecord\Rulesets;
 use FacebookAds\Api;
 use FacebookAds\Http\RequestInterface;
 use FacebookAds\Object\LeadgenForm;

@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\activerecord\Clients;
-use app\models\activerecord\ClientsSearch;
+use app\models\Activerecord\Clients;
+use app\models\Activerecord\ClientsSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

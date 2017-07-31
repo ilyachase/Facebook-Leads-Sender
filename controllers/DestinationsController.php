@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\activerecord\Clients;
+use app\models\Activerecord\Clients;
 use Yii;
-use app\models\activerecord\Destinations;
-use app\models\activerecord\DestinationsSearch;
+use app\models\Activerecord\Destinations;
+use app\models\Activerecord\DestinationsSearch;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;

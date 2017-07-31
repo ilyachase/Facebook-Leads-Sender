@@ -18,7 +18,7 @@ $this->title = 'Business "' . $name . '"';
     </tr>
     </thead>
     <tbody>
-    <?php /** @var \app\models\scalar\ScalarPage $page */
+    <?php /** @var \app\models\Scalar\ScalarPage $page */
     foreach ( $pages as $page ): ?>
         <tr>
             <td>

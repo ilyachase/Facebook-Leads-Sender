@@ -1,12 +1,12 @@
 <?php
 
-namespace app\models\activerecord;
+namespace app\models\Activerecord;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * ClientsSearch represents the model behind the search form about `app\models\activerecord\Clients`.
+ * ClientsSearch represents the model behind the search form about `app\models\Activerecord\Clients`.
  */
 class ClientsSearch extends Clients
 {

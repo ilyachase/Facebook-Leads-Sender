@@ -1,13 +1,13 @@
 <?php
 
 use app\components\TrivialHelper;
-use app\models\activerecord\Clients;
+use app\models\Activerecord\Clients;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\activerecord\DestinationsSearch */
+/* @var $searchModel app\models\Activerecord\DestinationsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var array $clientsDropdownItems */
 
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'    => 'Client',
                 'class'     => 'yii\grid\DataColumn',
                 'value'     => function ( $data ) {
-                    /** @var \app\models\activerecord\Destinations $data */
+                    /** @var \app\models\Activerecord\Destinations $data */
                     return Clients::findOne( $data->client_id )->name;
                 },
                 'filter'    => $clientsDropdownItems,

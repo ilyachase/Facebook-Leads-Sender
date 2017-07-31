@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\activerecord\Clients */
+/* @var $model app\models\Activerecord\Clients */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = [ 'label' => 'Clients', 'url' => [ 'index' ] ];

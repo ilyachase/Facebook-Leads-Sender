@@ -1,12 +1,12 @@
 <?php
 
-namespace app\models\activerecord;
+namespace app\models\Activerecord;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * DestinationsSearch represents the model behind the search form about `app\models\activerecord\Destinations`.
+ * DestinationsSearch represents the model behind the search form about `app\models\Activerecord\Destinations`.
  */
 class DestinationsSearch extends Destinations
 {
