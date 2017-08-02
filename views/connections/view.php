@@ -2,17 +2,21 @@
 
 use app\models\Activerecord\Clients;
 use app\models\Activerecord\Destinations;
+use app\models\Activerecord\Rulesets;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Activerecord\Connections */
+/* @var bool $just_created */
 
-$this->title = $model->id;
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = [ 'label' => 'Connections', 'url' => [ 'index' ] ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="connections-view">
+
+    <?= $just_created ? $this->render( '/site/_progress', [ 'activeStep' => 3 ] ) : '' ?>
 
     <p>
         <?= Html::a( 'Update', [ 'update', 'id' => $model->id ], [ 'class' => 'btn btn-primary' ] ) ?>
@@ -30,7 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'ruleset_id',
+            [
+                'label' => 'Ruleset', 'value' => function ( $model ) {
+                /** @var \app\models\Activerecord\Connections $model */
+                return Rulesets::findOne( $model->ruleset_id )->name;
+            }
+            ],
             [
                 'label' => 'Client', 'value' => function ( $model ) {
                 /** @var \app\models\Activerecord\Connections $model */
@@ -38,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             }
             ],
             [
-                'label' => 'check_interval',
+                'label' => 'Check Interval',
                 'value' => function ( $model ) {
                     /** @var \app\models\Activerecord\Connections $model */
                     return Yii::$app->params[PARAMS_CONNECTIONS_CHECK_INTERVALS][$model->check_interval];

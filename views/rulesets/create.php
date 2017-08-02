@@ -11,17 +11,17 @@ $this->title = 'Create Rulesets';
 $this->params['breadcrumbs'][] = [ 'label' => 'Rulesets', 'url' => [ 'index' ] ];
 $this->params['breadcrumbs'][] = $this->title;
 
-use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
 ?>
 <?php $form = ActiveForm::begin(); ?>
 
+<?= $this->render( '/site/_progress', [ 'activeStep' => 1 ] ); ?>
+
     <h3>Ruleset creating form</h3>
     <p>
         To create a ruleset you should select ADF field (right coulmn) for each field from Leadgen form (left column) and then submit the form.
-        <br/>After that you will able to use this ruleset at <a href="<?= Url::to( [ 'site/connections' ] ) ?>">connections page</a>.
     </p>
     <hr/>
 

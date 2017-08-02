@@ -86,7 +86,7 @@ class RulesetsController extends Basecontroller
         if ( Yii::$app->request->isPost )
         {
             $model->fillFromPost( $id, Yii::$app->request->post() )->save();
-            Yii::$app->params['message'] = 'Ruleset created successfull.';
+            return $this->redirect( [ 'connections/create', 'ruleset_id' => $model->id ] );
         }
 
         return $this->render( 'create', [

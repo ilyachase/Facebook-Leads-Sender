@@ -64,29 +64,43 @@ class ConnectionsController extends Controller
      * Displays a single Connections model.
      *
      * @param integer $id
+     * @param bool $just_created
      *
      * @return mixed
      */
-    public function actionView( $id )
+    public function actionView( $id, $just_created = false )
     {
+        if ( $just_created )
+        {
+            Yii::$app->params['message'] = 'Your connection have been created successfully. System will check leads from leadgen page in the near future.';
+        }
+
         return $this->render( 'view', [
-            'model' => $this->findModel( $id ),
+            'model'        => $this->findModel( $id ),
+            'just_created' => $just_created,
         ] );
     }
 
     /**
      * Creates a new Connections model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
+     * @param null|int $ruleset_id
+     *
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate( $ruleset_id = null )
     {
         $model = new Connections();
         $model->is_active = true;
+        if ( $ruleset_id )
+        {
+            $model->ruleset_id = $ruleset_id;
+        }
 
         if ( $model->load( Yii::$app->request->post() ) && $model->save() )
         {
-            return $this->redirect( [ 'view', 'id' => $model->id ] );
+            return $this->redirect( [ 'view', 'id' => $model->id, 'just_created' => true ] );
         }
         else
         {
