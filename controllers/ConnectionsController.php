@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Activerecord\Clients;
 use app\models\Activerecord\Destinations;
+use app\models\Activerecord\Rulesets;
 use Yii;
 use app\models\Activerecord\Connections;
 use app\models\Activerecord\ConnectionsSearch;
@@ -52,9 +53,9 @@ class ConnectionsController extends Controller
         $dataProvider = $searchModel->search( Yii::$app->request->queryParams );
 
         return $this->render( 'index', [
-            'searchModel'  => $searchModel,
-            'dataProvider' => $dataProvider,
-            'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+            'searchModel'               => $searchModel,
+            'dataProvider'              => $dataProvider,
+            'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
             'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
         ] );
     }
@@ -93,6 +94,7 @@ class ConnectionsController extends Controller
                 'model'                     => $model,
                 'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
                 'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
+                'rulesetsDropdownItems'     => ArrayHelper::map( Rulesets::find()->all(), 'id', 'name' ),
             ] );
         }
     }
@@ -116,9 +118,10 @@ class ConnectionsController extends Controller
         else
         {
             return $this->render( 'update', [
-                'model' => $model,
+                'model'                     => $model,
                 'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
                 'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
+                'rulesetsDropdownItems'     => ArrayHelper::map( Rulesets::find()->all(), 'id', 'name' ),
             ] );
         }
     }

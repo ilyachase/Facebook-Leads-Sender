@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 /* @var array $clientsDropdownItems */
 /* @var array $destinationsDropdownItems */
+/* @var array $rulesetsDropdownItems */
 ?>
 
 <div class="connections-form">
@@ -16,9 +17,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field( $model, 'name' )->textInput() ?>
 
-    <?= $form->field( $model, 'ruleset_id' )->textInput() ?>
+    <?= $form->field( $model, 'ruleset_id' )->dropDownList( $rulesetsDropdownItems )->label( 'Ruleset' ) ?>
 
-    <?= $form->field( $model, 'client_id' )->dropDownList( $clientsDropdownItems ) ?>
+    <?= $form->field( $model, 'client_id' )->dropDownList( $clientsDropdownItems )->label( 'Client' ) ?>
 
     <?= $form->field( $model, 'check_interval' )->dropDownList( Yii::$app->params[PARAMS_CONNECTIONS_CHECK_INTERVALS] ) ?>
 

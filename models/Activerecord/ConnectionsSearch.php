@@ -53,12 +53,9 @@ class ConnectionsSearch extends Connections
         }
 
         $query->andFilterWhere( [
-            'ruleset_id'        => $this->ruleset_id,
-            'client_id'         => $this->client_id,
-            'check_interval'    => $this->check_interval,
-            'last_time_checked' => $this->last_time_checked,
-            'destination_id'    => $this->destination_id,
-            'is_active'         => $this->is_active,
+            'client_id'      => $this->client_id,
+            'check_interval' => $this->check_interval,
+            'destination_id' => $this->destination_id,
         ] );
 
         $query->andFilterWhere( [ 'like', 'name', $this->name ] );
