@@ -82,6 +82,7 @@ class RulesetsController extends Basecontroller
         $leadgenForm = new ScalarLeadgenForm( $formData );
 
         $model = new Rulesets();
+        $model->name = "{$formData['name']} ({$formData['id']})";
         if ( Yii::$app->request->isPost )
         {
             $model->fillFromPost( $id, Yii::$app->request->post() )->save();

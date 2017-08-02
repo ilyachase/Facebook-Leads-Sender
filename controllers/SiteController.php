@@ -159,7 +159,7 @@ class SiteController extends Basecontroller
      */
     public function actionReset()
     {
-        Yii::$app->session->destroy();
+        $this->_fbToken->removeToken();
 
         return $this->goHome();
     }

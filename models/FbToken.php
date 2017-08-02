@@ -36,4 +36,9 @@ class FbToken
     {
         file_put_contents( $this->_tokenFilePath, json_encode( $token ) );
     }
+
+    public function removeToken()
+    {
+        unlink( $this->_tokenFilePath );
+    }
 }
