@@ -16,8 +16,9 @@ class ConnectionsSearch extends Connections
     public function rules()
     {
         return [
-            [['id', 'ruleset_id', 'client_id', 'check_interval', 'is_active', 'destination_id'], 'integer'],
-            [['last_time_checked'], 'safe'],
+            [ [ 'id', 'ruleset_id', 'client_id', 'check_interval', 'is_active', 'destination_id' ], 'integer' ],
+            [ [ 'name' ], 'string' ],
+            [ [ 'last_time_checked' ], 'safe' ],
         ];
     }
 
@@ -26,7 +27,6 @@ class ConnectionsSearch extends Connections
      */
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
@@ -37,34 +37,31 @@ class ConnectionsSearch extends Connections
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search( $params )
     {
         $query = Connections::find();
 
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider( [
             'query' => $query,
-        ]);
+        ] );
 
-        $this->load($params);
+        $this->load( $params );
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+        if ( !$this->validate() )
+        {
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'ruleset_id' => $this->ruleset_id,
-            'client_id' => $this->client_id,
-            'check_interval' => $this->check_interval,
+        $query->andFilterWhere( [
+            'ruleset_id'        => $this->ruleset_id,
+            'client_id'         => $this->client_id,
+            'check_interval'    => $this->check_interval,
             'last_time_checked' => $this->last_time_checked,
-            'destination_id' => $this->destination_id,
-            'is_active' => $this->is_active,
-        ]);
+            'destination_id'    => $this->destination_id,
+            'is_active'         => $this->is_active,
+        ] );
+
+        $query->andFilterWhere( [ 'like', 'name', $this->name ] );
 
         return $dataProvider;
     }

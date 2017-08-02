@@ -3,7 +3,7 @@
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\RulesetsSearch */
+/* @var $searchModel app\models\Activerecord\RulesetsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Rulesets';
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            'name',
             'leadform_id',
 
             ['class' => 'yii\grid\ActionColumn'],

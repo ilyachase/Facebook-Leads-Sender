@@ -13,6 +13,7 @@ namespace app\models\Activerecord;
  * @property integer $destination_id
  * @property string $last_lead_time
  * @property integer $is_active
+ * @property string $name
  */
 class Connections extends \yii\db\ActiveRecord
 {
@@ -31,7 +32,7 @@ class Connections extends \yii\db\ActiveRecord
     {
         return [
             [ [ 'ruleset_id', 'client_id', 'check_interval', 'is_active', 'destination_id' ], 'integer' ],
-            [ [ 'ruleset_id', 'check_interval', 'destination_id', 'is_active' ], 'required' ],
+            [ [ 'ruleset_id', 'check_interval', 'destination_id', 'is_active', 'name' ], 'required' ],
         ];
     }
 
@@ -47,6 +48,7 @@ class Connections extends \yii\db\ActiveRecord
             'check_interval'    => 'Check Interval',
             'last_time_checked' => 'Last Time Checked',
             'is_active'         => 'Is Active',
+            'name'              => 'Name',
         ];
     }
 

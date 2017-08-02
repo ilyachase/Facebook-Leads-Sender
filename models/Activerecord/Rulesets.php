@@ -8,6 +8,7 @@ use app\models\Scalar\ScalarFieldConnection;
  *
  * @property integer $id
  * @property integer $leadform_id
+ * @property string $name
  */
 class Rulesets extends \yii\db\ActiveRecord
 {
@@ -29,6 +30,7 @@ class Rulesets extends \yii\db\ActiveRecord
     {
         return [
             [ [ 'content' ], 'string' ],
+            [ [ 'name' ], 'required' ],
         ];
     }
 
@@ -70,6 +72,7 @@ class Rulesets extends \yii\db\ActiveRecord
         }
 
         $this->leadform_id = $formId;
+        $this->name = $post['Rulesets']['name'];
         $this->content = serialize( $this->fieldConnections );
 
         return $this;

@@ -8,7 +8,7 @@ use FacebookAds\Api;
 use FacebookAds\Http\RequestInterface;
 use Yii;
 use app\models\Activerecord\Rulesets;
-use app\models\RulesetsSearch;
+use app\models\Activerecord\RulesetsSearch;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -81,14 +81,16 @@ class RulesetsController extends Basecontroller
         $formData = Api::instance()->call( "/$id", RequestInterface::METHOD_GET, [ 'fields' => 'id,name,qualifiers' ] )->getContent();
         $leadgenForm = new ScalarLeadgenForm( $formData );
 
+        $model = new Rulesets();
         if ( Yii::$app->request->isPost )
         {
-            ( new Rulesets() )->fillFromPost( $id, Yii::$app->request->post() )->save();
+            $model->fillFromPost( $id, Yii::$app->request->post() )->save();
             Yii::$app->params['message'] = 'Ruleset created successfull.';
         }
 
         return $this->render( 'create', [
-            'leadgenForm' => $leadgenForm,
+            'model'         => $model,
+            'leadgenForm'   => $leadgenForm,
             'selectOptions' => ( new ADFGenerator() )->getADFFieldSelectOptionsHtml(),
         ] );
     }

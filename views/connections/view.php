@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model'      => $model,
         'attributes' => [
             'id',
+            'name',
             'ruleset_id',
             [
                 'label' => 'Client', 'value' => function ( $model ) {
