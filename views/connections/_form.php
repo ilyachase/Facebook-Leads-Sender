@@ -15,16 +15,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $model->ruleset_id ? $this->render( '/site/_progress', [ 'activeStep' => 2 ] ) : '' ?>
+    <?= $model->ruleset_id ? $this->render( '/site/_progress', [ 'activeStep' => 3 ] ) : '' ?>
 
     <?= $form->field( $model, 'name' )->textInput() ?>
 
     <?= $form->field( $model, 'destination_id' )->dropDownList( $destinationsDropdownItems )->label( 'Destination' ) ?>
-    <?php if ( $model->ruleset_id ): ?>
-        <span class="help-block">
-        Choose a destination or <?= Html::a( 'create a new one', [ 'destinations/create' ], [ 'target' => '_blank' ] ); ?> and then refresh this page.
-    </span>
-    <?php endif; ?>
 
     <?= $form->field( $model, 'ruleset_id' )->dropDownList( $rulesetsDropdownItems )->label( 'Ruleset' ) ?>
     <?php if ( $model->ruleset_id ): ?>
@@ -33,7 +28,7 @@ use yii\widgets\ActiveForm;
     </span>
     <?php endif; ?>
 
-    <?= $form->field( $model, 'client_id' )->dropDownList( $clientsDropdownItems )->label( 'Client' ) ?>
+    <?= $form->field( $model, 'client_id' )->dropDownList( $clientsDropdownItems, [ 'prompt' => '' ] )->label( 'Client' ) ?>
 
     <?= $form->field( $model, 'check_interval' )->dropDownList( Yii::$app->params[PARAMS_CONNECTIONS_CHECK_INTERVALS] ) ?>
 

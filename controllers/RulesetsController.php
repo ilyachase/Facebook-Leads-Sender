@@ -86,7 +86,7 @@ class RulesetsController extends Basecontroller
         if ( Yii::$app->request->isPost )
         {
             $model->fillFromPost( $id, Yii::$app->request->post() )->save();
-            return $this->redirect( [ 'connections/create', 'ruleset_id' => $model->id ] );
+            return $this->redirect( [ 'destinations/create', 'ruleset_id' => $model->id ] );
         }
 
         return $this->render( 'create', [

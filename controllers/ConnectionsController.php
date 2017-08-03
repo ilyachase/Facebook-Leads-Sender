@@ -86,21 +86,23 @@ class ConnectionsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      *
      * @param null|int $ruleset_id
+     * @param null|int $destination_id
      *
      * @return mixed
      */
-    public function actionCreate( $ruleset_id = null )
+    public function actionCreate( $ruleset_id = null, $destination_id = null )
     {
         $model = new Connections();
         $model->is_active = true;
-        if ( $ruleset_id )
+        if ( $ruleset_id && $ruleset_id )
         {
-            $model->ruleset_id = $ruleset_id;
+            $model->ruleset_id = (int) $ruleset_id;
+            $model->destination_id = (int) $destination_id;
         }
 
         if ( $model->load( Yii::$app->request->post() ) && $model->save() )
         {
-            return $this->redirect( [ 'view', 'id' => $model->id, 'just_created' => true ] );
+            return $this->redirect( [ 'view', 'id' => $model->id, 'just_created' => ( $ruleset_id && $destination_id ) ] );
         }
         else
         {

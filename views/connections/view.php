@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="connections-view">
 
-    <?= $just_created ? $this->render( '/site/_progress', [ 'activeStep' => 3 ] ) : '' ?>
+    <?= $just_created ? $this->render( '/site/_progress', [ 'activeStep' => 4 ] ) : '' ?>
 
     <p>
         <?= Html::a( 'Update', [ 'update', 'id' => $model->id ], [ 'class' => 'btn btn-primary' ] ) ?>

@@ -7,15 +7,45 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Activerecord\Destinations */
 /* @var $form yii\widgets\ActiveForm */
 /* @var array $clientsDropdownItems */
+/* @var array $destinationsDropdownItems */
+/* @var null|int $ruleset_id */
 ?>
 
 <div class="destinations-form">
+
+    <?= $ruleset_id ? $this->render( '/site/_progress', [ 'activeStep' => 2 ] ) : '' ?>
+
+    <?php if ( $ruleset_id ): ?>
+        <h2>Existing destination</h2>
+        <p>You can choose existing destination or create a new one in the form below.</p>
+
+        <?= Html::beginForm( '/connections/create', 'GET' ) ?>
+
+        <?= Html::hiddenInput( 'ruleset_id', $ruleset_id ) ?>
+
+        <?= Html::csrfMetaTags() ?>
+
+        <div class="form-group">
+            <?= Html::dropDownList( 'destination_id', null, $destinationsDropdownItems, [ 'class' => 'form-control' ] ) ?>
+        </div>
+
+        <div class="form-group">
+            <?= Html::submitButton( 'Choose', [ 'class' => 'btn btn-success' ] ) ?>
+        </div>
+
+        <?= Html::endForm(); ?>
+        <hr/>
+    <?php endif; ?>
+
+    <?php if ( $ruleset_id ): ?>
+        <h2>New destination</h2>
+    <?php endif; ?>
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field( $model, 'name' )->textInput() ?>
 
-    <?= $form->field( $model, 'client_id' )->dropDownList( $clientsDropdownItems ) ?>
+    <?= $form->field( $model, 'client_id' )->dropDownList( $clientsDropdownItems, [ 'prompt' => '' ] ) ?>
 
     <?= $form->field( $model, 'email_from' )->textInput() ?>
 

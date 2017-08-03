@@ -51,8 +51,8 @@ class DestinationsController extends Controller
         $dataProvider = $searchModel->search( Yii::$app->request->queryParams );
 
         return $this->render( 'index', [
-            'searchModel'  => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchModel'          => $searchModel,
+            'dataProvider'         => $dataProvider,
             'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
         ] );
     }
@@ -74,21 +74,31 @@ class DestinationsController extends Controller
     /**
      * Creates a new Destinations model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
+     * @param null|int $ruleset_id
+     *
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate( $ruleset_id = null )
     {
         $model = new Destinations();
 
         if ( $model->load( Yii::$app->request->post() ) && $model->save() )
         {
+            if ( $ruleset_id )
+            {
+                return $this->redirect( [ 'connections/create', 'ruleset_id' => $ruleset_id, 'destination_id' => $model->id ] );
+            }
+
             return $this->redirect( [ 'view', 'id' => $model->id ] );
         }
         else
         {
             return $this->render( 'create', [
-                'model'                => $model,
-                'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+                'ruleset_id'                => $ruleset_id,
+                'model'                     => $model,
+                'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+                'destinationsDropdownItems' => $ruleset_id ? ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ) : [],
             ] );
         }
     }
@@ -111,8 +121,10 @@ class DestinationsController extends Controller
         else
         {
             return $this->render( 'create', [
-                'model'                => $model,
-                'clientsDropdownItems' => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+                'model'                     => $model,
+                'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
+                'ruleset_id'                => null,
+                'destinationsDropdownItems' => [],
             ] );
         }
     }
