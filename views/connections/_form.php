@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $model->ruleset_id ? $this->render( '/site/_progress', [ 'activeStep' => 3 ] ) : '' ?>
+    <?= ( $model->ruleset_id && $model->isNewRecord ) ? $this->render( '/site/_progress', [ 'activeStep' => 3 ] ) : '' ?>
 
     <?= $form->field( $model, 'name' )->textInput() ?>
 
