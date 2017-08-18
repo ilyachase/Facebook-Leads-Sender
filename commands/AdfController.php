@@ -15,6 +15,7 @@ use FacebookAds\Object\LeadgenForm;
 use Yii;
 use yii\console\Controller;
 use yii\console\Exception;
+use yii\helpers\ArrayHelper;
 
 class AdfController extends Controller
 {
@@ -67,7 +68,13 @@ class AdfController extends Controller
             if ( $currentMinutes % $interval !== 0 )
                 continue;
 
-            $connections = Connections::find()->where( [ 'check_interval' => $interval, 'is_active' => true ] )->all();
+            $new_connections = ArrayHelper::index( Connections::find()->where( [ 'last_time_checked' => null, 'is_active' => true ] )->all(), 'id' );
+            $connections_by_time = ArrayHelper::index( Connections::find()->where( [ 'check_interval' => $interval, 'is_active' => true ] )->all(), 'id' );
+            $connections = $new_connections + $connections_by_time;
+
+            /**
+             * @var Connections[] $connections
+             */
             foreach ( $connections as $connection )
             {
                 $this->log( "Found connection with id = $connection->id" );
@@ -76,7 +83,7 @@ class AdfController extends Controller
 
                 $connectionLastLeadTimestamp = (int) Yii::$app->formatter->asTimestamp( $connection->last_lead_time );
 
-                $ruleset = Rulesets::findOne( [ 'id' => $connection->ruleset_id ] );
+                $ruleset = Rulesets::findOne( $connection->ruleset_id );
                 if ( !$ruleset )
                     throw new Exception( "Can't find ruleset with id $connection->ruleset_id for connection $connection->id" );
 
@@ -158,6 +165,10 @@ class AdfController extends Controller
         $this->log( "Done." );
     }
 
+    /**
+     * @param string $message
+     * @param bool $eol
+     */
     private function log( $message, $eol = true )
     {
         if ( !$this->debug )

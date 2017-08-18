@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models\Activerecord;
+
 use app\models\Scalar\ScalarFieldConnection;
 
 /**
