@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\TrivialHelper;
 use app\models\Activerecord\Clients;
 use Yii;
 use app\models\Activerecord\Destinations;
@@ -164,7 +165,16 @@ class DestinationsController extends Controller
      */
     public function actionDelete( $id )
     {
-        $this->findModel( $id )->delete();
+        $model = $this->findModel( $id );
+        if ( $message = $model->getDeletionErrorMessage() )
+        {
+            TrivialHelper::AddError( $message );
+            return $this->actionIndex();
+        }
+        else
+        {
+            $model->delete();
+        }
 
         return $this->redirect( [ 'index' ] );
     }

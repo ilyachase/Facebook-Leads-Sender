@@ -3,6 +3,7 @@
 namespace app\models\Activerecord;
 
 use app\models\Scalar\ScalarFieldConnection;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "rulesets".
@@ -77,5 +78,28 @@ class Rulesets extends \yii\db\ActiveRecord
         $this->content = serialize( $this->fieldConnections );
 
         return $this;
+    }
+
+    /**
+     * @return string empty if entitny can be deleted
+     */
+    public function getDeletionErrorMessage()
+    {
+        $connections = Connections::find()->where( [ 'ruleset_id' => $this->id ] )->all();
+        if ( count( $connections ) )
+        {
+            $message = "In order to delete this Destination you have to first delete or edit following connections:";
+
+            $elements = [];
+            foreach ( $connections as $connection )
+            {
+                $elements[] = Html::a( $connection->name, [ 'connections/view', 'id' => $connection->id ] );
+            }
+            $message .= Html::ul( $elements, [ 'encode' => false ] );
+
+            return $message;
+        }
+
+        return '';
     }
 }

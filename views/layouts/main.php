@@ -73,19 +73,19 @@ AppAsset::register( $this );
                 <h1><?= $this->title ?></h1>
             <?php endif; ?>
             <?php if ( isset( Yii::$app->params['warning'] ) ): ?>
-                <p class="bg-warning">
+                <div class="bg-warning paragraph">
                     <?= Yii::$app->params['warning'] ?>
-                </p>
+                </div>
             <?php endif; ?>
             <?php if ( isset( Yii::$app->params['message'] ) ): ?>
-                <p class="bg-success">
+                <div class="bg-success paragraph">
                     <?= Yii::$app->params['message'] ?>
-                </p>
+                </div>
             <?php endif; ?>
             <?php if ( isset( Yii::$app->params['error'] ) ): ?>
-                <p class="bg-danger">
+                <div class="bg-danger paragraph">
                     <?= Yii::$app->params['error'] ?>
-                </p>
+                </div>
             <?php endif; ?>
             <?= $content ?>
         </div>

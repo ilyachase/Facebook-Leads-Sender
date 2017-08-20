@@ -130,7 +130,16 @@ class RulesetsController extends Basecontroller
      */
     public function actionDelete( $id )
     {
-        $this->findModel( $id )->delete();
+        $model = $this->findModel( $id );
+        if ( $message = $model->getDeletionErrorMessage() )
+        {
+            TrivialHelper::AddError( $message );
+            return $this->actionIndex();
+        }
+        else
+        {
+            $model->delete();
+        }
 
         return $this->redirect( [ 'index' ] );
     }

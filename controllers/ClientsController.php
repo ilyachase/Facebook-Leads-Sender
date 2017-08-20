@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\TrivialHelper;
 use Yii;
 use app\models\Activerecord\Clients;
 use app\models\Activerecord\ClientsSearch;
@@ -30,10 +31,10 @@ class ClientsController extends Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
+            'verbs'  => [
+                'class'   => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => [ 'POST' ],
                 ],
             ],
         ];
@@ -46,24 +47,26 @@ class ClientsController extends Controller
     public function actionIndex()
     {
         $searchModel = new ClientsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search( Yii::$app->request->queryParams );
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
+        return $this->render( 'index', [
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
+        ] );
     }
 
     /**
      * Displays a single Clients model.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView( $id )
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->render( 'view', [
+            'model' => $this->findModel( $id ),
+        ] );
     }
 
     /**
@@ -75,60 +78,84 @@ class ClientsController extends Controller
     {
         $model = new Clients();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
+        if ( $model->load( Yii::$app->request->post() ) && $model->save() )
+        {
+            return $this->redirect( [ 'view', 'id' => $model->id ] );
+        }
+        else
+        {
+            return $this->render( 'create', [
                 'model' => $model,
-            ]);
+            ] );
         }
     }
 
     /**
      * Updates an existing Clients model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate( $id )
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel( $id );
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
+        if ( $model->load( Yii::$app->request->post() ) && $model->save() )
+        {
+            return $this->redirect( [ 'view', 'id' => $model->id ] );
+        }
+        else
+        {
+            return $this->render( 'update', [
                 'model' => $model,
-            ]);
+            ] );
         }
     }
 
     /**
      * Deletes an existing Clients model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete( $id )
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel( $id );
+        if ( $message = $model->getDeletionErrorMessage() )
+        {
+            TrivialHelper::AddError( $message );
+            return $this->actionIndex();
+        }
+        else
+        {
+            $model->delete();
+        }
 
-        return $this->redirect(['index']);
+        return $this->redirect( [ 'index' ] );
     }
 
     /**
      * Finds the Clients model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
+     *
      * @return Clients the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel( $id )
     {
-        if (($model = Clients::findOne($id)) !== null) {
+        if ( ( $model = Clients::findOne( $id ) ) !== null )
+        {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        else
+        {
+            throw new NotFoundHttpException( 'The requested page does not exist.' );
         }
     }
 }

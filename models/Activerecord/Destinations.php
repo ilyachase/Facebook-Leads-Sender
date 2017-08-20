@@ -2,6 +2,8 @@
 
 namespace app\models\Activerecord;
 
+use yii\helpers\Html;
+
 /**
  * This is the model class for table "destinations".
  *
@@ -51,5 +53,28 @@ class Destinations extends \yii\db\ActiveRecord
             'bcc'          => 'Bcc',
             'subject'      => 'Subject',
         ];
+    }
+
+    /**
+     * @return string empty if entitny can be deleted
+     */
+    public function getDeletionErrorMessage()
+    {
+        $connections = Connections::find()->where( [ 'destination_id' => $this->id ] )->all();
+        if ( count( $connections ) )
+        {
+            $message = "In order to delete this Ruleset you have to first delete or edit following destinations:";
+
+            $elements = [];
+            foreach ( $connections as $connection )
+            {
+                $elements[] = Html::a( $connection->name, [ 'connections/view', 'id' => $connection->id ] );
+            }
+            $message .= Html::ul( $elements, [ 'encode' => false ] );
+
+            return $message;
+        }
+
+        return '';
     }
 }

@@ -270,3 +270,8 @@ a.desc:after
 }
 
 /*END Form Wizard*/
+
+.paragraph {
+	padding: 15px;
+	margin-bottom: 10px;
+}
