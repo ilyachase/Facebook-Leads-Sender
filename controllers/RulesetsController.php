@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\TrivialHelper;
 use app\models\ADFGenerator;
 use app\models\Scalar\ScalarLeadgenForm;
 use FacebookAds\Api;
@@ -111,7 +112,7 @@ class RulesetsController extends Basecontroller
         if ( Yii::$app->request->isPost )
         {
             $model->fillFromPost( $model->leadform_id, Yii::$app->request->post() )->save();
-            Yii::$app->params['message'] = 'Ruleset updated successfull.';
+            TrivialHelper::AddMessage( 'Ruleset updated successfull.' );
         }
 
         return $this->render( 'update', [

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\TrivialHelper;
 use app\models\Scalar\ScalarLeadForm;
 use app\models\Scalar\ScalarPage;
 use FacebookAds\Api;
@@ -89,7 +90,7 @@ class SiteController extends Basecontroller
             if ( !$token )
             {
                 $loginUrl = $helper->getLoginUrl( Yii::$app->getRequest()->absoluteUrl, Yii::$app->params[PARAMS_FB_SCOPES] );
-                Yii::$app->params['warning'] = 'In order to work with the system, you should <a href="' . $loginUrl . '">log in with Facebook</a> first.';
+                TrivialHelper::AddWarning( 'In order to work with the system, you should <a href="' . $loginUrl . '">log in with Facebook</a> first.' );
                 return $this->render( 'fb_login' );
             }
             else

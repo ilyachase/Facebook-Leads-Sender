@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\TrivialHelper;
 use app\models\Activerecord\Clients;
 use app\models\Activerecord\Destinations;
 use app\models\Activerecord\Rulesets;
@@ -72,7 +73,7 @@ class ConnectionsController extends Controller
     {
         if ( $just_created )
         {
-            Yii::$app->params['message'] = 'Your connection have been created successfully. System will check leads from leadgen page in the near future.';
+            TrivialHelper::AddMessage( 'Your connection have been created successfully. System will check leads from leadgen page in the near future.' );
         }
 
         return $this->render( 'view', [
