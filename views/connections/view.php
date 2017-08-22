@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Client', 'value' => function ( $model ) {
                 /** @var \app\models\Activerecord\Connections $model */
-                return Clients::findOne( $model->client_id )->name;
+                return $model->client_id !== null ? Clients::findOne( $model->client_id )->name : null;
             }
             ],
             [
