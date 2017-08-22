@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class'     => 'yii\grid\DataColumn',
                 'value'     => function ( $data ) {
                     /** @var \app\models\Activerecord\Destinations $data */
-                    return Clients::findOne( $data->client_id )->name;
+                    return $data->client_id !== null ? Clients::findOne( $data->client_id )->name : null;
                 },
                 'filter'    => $clientsDropdownItems,
             ],
