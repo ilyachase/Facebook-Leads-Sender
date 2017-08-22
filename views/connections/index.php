@@ -56,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter'    => $destinationsDropdownItems,
             ],
+            'is_active:boolean',
 
             [ 'class' => 'yii\grid\ActionColumn' ],
         ],
