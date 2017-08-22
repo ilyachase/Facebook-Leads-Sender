@@ -26,6 +26,8 @@ foreach ( $leadForms as $leadForm ):
         </dd>
         <dt>Status</dt>
         <dd><?= $leadForm->status ?></dd>
+        <dt>Leads count</dt>
+        <dd><?= $leadForm->leadsCount ?></dd>
         <dt></dt>
         <dd>
             <a class="btn btn-primary" href="<?= Url::to( [ 'rulesets/create', 'id' => $leadForm->id ] ) ?>">

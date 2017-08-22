@@ -6,6 +6,7 @@ use app\components\TrivialHelper;
 use app\models\Scalar\ScalarLeadForm;
 use app\models\Scalar\ScalarPage;
 use FacebookAds\Api;
+use FacebookAds\Object\LeadgenForm;
 use FacebookAds\Object\Page;
 use Yii;
 use yii\filters\AccessControl;
@@ -205,9 +206,10 @@ class SiteController extends Basecontroller
         $pageName = $page->read()->getData()['name'];
 
         $leadForms = [];
+        /** @var LeadgenForm $leadgenForm */
         foreach ( $page->getLeadgenForms() as $leadgenForm )
         {
-            $leadForms[] = new ScalarLeadForm( $leadgenForm->getData() );
+            $leadForms[] = new ScalarLeadForm( $leadgenForm->getData(), $leadgenForm->getLeads()->count() );
         }
 
         return $this->render( 'pagedetails', [ 'name' => $pageName, 'leadForms' => $leadForms ] );

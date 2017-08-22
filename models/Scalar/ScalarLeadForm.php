@@ -16,12 +16,16 @@ class ScalarLeadForm
     /** @var string */
     public $status;
 
+    /** @var int */
+    public $leadsCount = 0;
+
     /**
      * ScalarLeadForm constructor.
      *
      * @param array $leadFormData
+     * @param int $leadsCount
      */
-    public function __construct( array $leadFormData )
+    public function __construct( array $leadFormData, $leadsCount )
     {
         if ( isset( $leadFormData['id'] ) )
             $this->id = $leadFormData['id'];
@@ -34,5 +38,7 @@ class ScalarLeadForm
 
         if ( isset( $leadFormData['status'] ) )
             $this->status = $leadFormData['status'];
+
+        $this->leadsCount = $leadsCount;
     }
 }
