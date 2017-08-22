@@ -6,6 +6,7 @@ class ScalarFieldConnection
 {
     const KEY_QUESTION = 'question';
     const KEY_ADF_FIELD_ID = 'ADFFieldId';
+    const KEY_INCLUDE_QUESTION = 'includeQuestion';
 
     /** @var string */
     public $leadgenFieldId;
@@ -15,6 +16,9 @@ class ScalarFieldConnection
 
     /** @var string */
     public $ADFfieldId;
+
+    /** @var bool */
+    public $includeQuestion = false;
 
     /**
      * ScalarFieldConnection constructor.
@@ -27,5 +31,9 @@ class ScalarFieldConnection
         $this->leadgenFieldId = (string) $leadFormFileId;
         $this->ADFfieldId = $data[self::KEY_ADF_FIELD_ID];
         $this->leadgenFieldQuestion = $data[self::KEY_QUESTION];
+        if ( isset( $data[self::KEY_INCLUDE_QUESTION] ) && $data[self::KEY_INCLUDE_QUESTION] == true )
+        {
+            $this->includeQuestion = true;
+        }
     }
 }

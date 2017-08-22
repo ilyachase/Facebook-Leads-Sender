@@ -36,7 +36,10 @@ $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
 
 <?php foreach ( $leadgenForm->fields as $field ): ?>
     <div class="col-sm-4 col-sm-offset-1">
-        <p class="form-control-static"><?= $field->question ?></p>
+        <p class="form-control-static">
+            <?= $field->question ?>
+            <input class="ml5" title="Include question text in ADF field" name="fieldConnections[<?= $field->id ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_INCLUDE_QUESTION ?>]" type="checkbox" value="1">
+        </p>
         <input type="hidden" name="fieldConnections[<?= $field->id ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->question ?>">
     </div>
     <div class="form-group clearfix">

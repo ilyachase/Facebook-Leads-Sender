@@ -275,3 +275,8 @@ a.desc:after
 	padding: 15px;
 	margin-bottom: 10px;
 }
+
+.page-content .ml5
+{
+	margin-left: 5px;
+}

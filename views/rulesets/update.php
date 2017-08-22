@@ -30,7 +30,10 @@ $adfGenerator = new ADFGenerator();
 
 <?php foreach ( $model->fieldConnections as $field ): ?>
     <div class="col-sm-4 col-sm-offset-1">
-        <p class="form-control-static"><?= $field->leadgenFieldQuestion ?></p>
+        <p class="form-control-static">
+            <?= $field->leadgenFieldQuestion ?>
+            <input class="ml5" title="Include question text in ADF field"<?= ( $field->includeQuestion ? ' checked="checked"' : '' ) ?> name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_INCLUDE_QUESTION ?>]" type="checkbox" value="1">
+        </p>
         <input type="hidden" name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->leadgenFieldQuestion ?>">
     </div>
     <div class="form-group clearfix">

@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\Activerecord\Rulesets;
+
 class ADFGenerator
 {
     /**
@@ -141,10 +143,11 @@ class ADFGenerator
 
     /**
      * @param array $adfData
+     * @param Rulesets $ruleset
      *
      * @return string
      */
-    public function generateADF( array $adfData )
+    public function generateADF( array $adfData, Rulesets $ruleset )
     {
         $resultXml = new \DOMDocument( '1.0' );
         $resultXml->loadXML( '<?ADF VERSION="1.0"?><adf></adf>' );
@@ -153,11 +156,16 @@ class ADFGenerator
         foreach ( $adfData as $leadData )
         {
             $adf->appendChild( ( new \DOMElement( 'prospect' ) ) );
+
             foreach ( $this->extractADFFields( $this->_ADFFullStructure ) as $fieldPath )
             {
-                if ( isset( $leadData[implode( '_', $fieldPath )] ) )
+                $key = implode( '_', $fieldPath );
+
+                if ( isset( $leadData[$key] ) )
                 {
-                    $tagValue = htmlspecialchars( trim( $leadData[implode( '_', $fieldPath )] ) );
+                    $connection = $ruleset->getConnectionByAdfFieldId( $key );
+
+                    $tagValue = ( $connection->includeQuestion ? $connection->leadgenFieldQuestion . ' - ' : '' ) . htmlspecialchars( trim( $leadData[$key] ) );
                     $parent = $resultXml->getElementsByTagName( 'prospect' )->item( $i );
                     foreach ( $fieldPath as $tagName )
                     {
@@ -169,6 +177,7 @@ class ADFGenerator
 
                         $parent = $parent->getElementsByTagName( $tagName )->item( 0 );
                     }
+
                     $parent->nodeValue .= $tagValue;
                 }
             }

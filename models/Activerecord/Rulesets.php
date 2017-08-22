@@ -3,6 +3,7 @@
 namespace app\models\Activerecord;
 
 use app\models\Scalar\ScalarFieldConnection;
+use yii\console\Exception;
 use yii\helpers\Html;
 
 /**
@@ -101,5 +102,22 @@ class Rulesets extends \yii\db\ActiveRecord
         }
 
         return '';
+    }
+
+    /**
+     * @param string $adfFieldId
+     *
+     * @return ScalarFieldConnection
+     * @throws Exception
+     */
+    public function getConnectionByAdfFieldId( $adfFieldId )
+    {
+        foreach ( $this->fieldConnections as $connection )
+        {
+            if ( $connection->ADFfieldId == $adfFieldId )
+                return $connection;
+        }
+
+        throw new Exception( "Connection with adf field id $adfFieldId not found:" . print_r( $this->fieldConnections, true ) );
     }
 }

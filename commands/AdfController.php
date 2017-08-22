@@ -132,7 +132,7 @@ class AdfController extends Controller
                     $leadsSendedCounter++;
                 }
 
-                $xmlString = $generator->generateADF( $adfData );
+                $xmlString = $generator->generateADF( $adfData, $ruleset );
 
                 $message = \Yii::$app->mailer->compose()
                     ->setTo( $destination->email_to )
