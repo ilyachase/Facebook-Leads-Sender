@@ -32,17 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
     ] ) ?>
 
     <h2>Field connections</h2>
-    <table class="table table-bordered">
-        <tr>
-            <th>Leadgen form field</th>
-            <th>ADF field</th>
-        </tr>
+    <table class="table table-bordered table-striped">
         <?php foreach ( $model->fieldConnections as $connection ): ?>
             <tr>
-                <td><?= $connection->leadgenFieldQuestion ?></td>
+                <th><?= $connection->leadgenFieldQuestion ?></th>
                 <td><?= \app\models\ADFGenerator::GetSingleFieldText( $connection->ADFfieldId ) ?></td>
             </tr>
         <?php endforeach; ?>
+        <?php if ( $model->facebookPageLink ): ?>
+            <tr>
+                <th>Page Url</th>
+                <td><?= $model->facebookPageLink ?></td>
+            </tr>
+        <?php endif; ?>
     </table>
 
 </div>

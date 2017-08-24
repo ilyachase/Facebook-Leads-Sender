@@ -3,6 +3,8 @@
 namespace app\models\Activerecord;
 
 use app\models\Scalar\ScalarFieldConnection;
+use FacebookAds\Object\LeadgenForm;
+use FacebookAds\Object\Page;
 use yii\console\Exception;
 use yii\helpers\Html;
 
@@ -12,11 +14,15 @@ use yii\helpers\Html;
  * @property integer $id
  * @property integer $leadform_id
  * @property string $name
+ * @property-read string $facebookPageLink
  */
 class Rulesets extends \yii\db\ActiveRecord
 {
     /** @var ScalarFieldConnection[] */
     public $fieldConnections = [];
+
+    /** @var string */
+    private $_facebookPageLink;
 
     /**
      * @inheritdoc
@@ -119,5 +125,31 @@ class Rulesets extends \yii\db\ActiveRecord
         }
 
         throw new Exception( "Connection with adf field id $adfFieldId not found:" . print_r( $this->fieldConnections, true ) );
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function __get( $name )
+    {
+        switch ( $name )
+        {
+            case 'facebookPageLink':
+                if ( null === $this->_facebookPageLink )
+                {
+                    $formData = ( new LeadgenForm( $this->leadform_id ) )->read( [ 'page_id' ] )->getData();
+                    $page = ( new Page( $formData['page_id'] ) )->read( [ 'name' ] )->getData();
+                    if ( $formData['page_id'] )
+                    {
+                        $this->_facebookPageLink = Html::a( $page['name'], "https://www.facebook.com/{$formData['page_id']}", [ 'target' => '_blank' ] );
+                    }
+                }
+                return $this->_facebookPageLink;
+                break;
+        }
+
+        return parent::__get( $name );
     }
 }
