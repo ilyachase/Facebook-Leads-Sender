@@ -28,6 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'name',
             'leadform_id',
+            [
+                'label' => 'Page Url',
+                'value' => $model->facebookPageLink,
+                'format' => 'raw',
+            ],
         ],
     ] ) ?>
 
@@ -39,12 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <td><?= \app\models\ADFGenerator::GetSingleFieldText( $connection->ADFfieldId ) ?></td>
             </tr>
         <?php endforeach; ?>
-        <?php if ( $model->facebookPageLink ): ?>
-            <tr>
-                <th>Page Url</th>
-                <td><?= $model->facebookPageLink ?></td>
-            </tr>
-        <?php endif; ?>
     </table>
 
 </div>
