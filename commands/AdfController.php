@@ -61,6 +61,7 @@ class AdfController extends Controller
         $currentMinutes = (int) date( 'G' ) * 60 + (int) date( 'i' );
         $generator = new ADFGenerator();
         $this->log( "ADF generation script started working." );
+        $this->log( "Current time: " . Yii::$app->formatter->asDatetime( time() ) );
         $this->log( "Current minutes: $currentMinutes" );
 
         foreach ( Yii::$app->params[PARAMS_CONNECTIONS_CHECK_INTERVALS] as $interval => $label )
