@@ -280,3 +280,10 @@ a.desc:after
 {
 	margin-left: 5px;
 }
+
+.ruleset-question-checkbox {
+	float: right;
+	position: relative;
+	right: -25px;
+	top: -28px;
+}

@@ -24,6 +24,12 @@ $adfGenerator = new ADFGenerator();
     </div>
 
     <div class="row">
+        <p class="text-info text-center">
+            <strong>Info:</strong> To include question text in ADF field, use according checkboxes near selects lists.
+        </p>
+    </div>
+
+    <div class="row">
         <div class="col-sm-4 col-sm-offset-1 text-center"><h4>Leadgen form fields</h4></div>
         <div class="col-sm-4 text-center"><h4>ADF fields</h4></div>
     </div>
@@ -32,7 +38,6 @@ $adfGenerator = new ADFGenerator();
     <div class="col-sm-4 col-sm-offset-1">
         <p class="form-control-static">
             <?= $field->leadgenFieldQuestion ?>
-            <input class="ml5" title="Include question text in ADF field"<?= ( $field->includeQuestion ? ' checked="checked"' : '' ) ?> name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_INCLUDE_QUESTION ?>]" type="checkbox" value="1">
         </p>
         <input type="hidden" name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_QUESTION ?>]" value="<?= $field->leadgenFieldQuestion ?>">
     </div>
@@ -41,6 +46,7 @@ $adfGenerator = new ADFGenerator();
             <select class="form-control" name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
                 <?= $adfGenerator->getADFFieldSelectOptionsHtml( $field->ADFfieldId ) ?>
             </select>
+            <input class="ml5 ruleset-question-checkbox" title="Include question text in ADF field"<?= ( $field->includeQuestion ? ' checked="checked"' : '' ) ?> name="fieldConnections[<?= $field->leadgenFieldId ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_INCLUDE_QUESTION ?>]" type="checkbox" value="1">
         </div>
     </div>
 <?php endforeach; ?>
