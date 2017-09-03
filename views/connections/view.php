@@ -52,9 +52,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Destinations::findOne( $model->destination_id )->name;
             }
             ],
-            'last_time_checked',
-            'last_lead_time',
-            'is_active',
+            'last_time_checked:datetime',
+            'last_lead_time:datetime',
+            'is_active:boolean',
         ],
     ] ) ?>
 
