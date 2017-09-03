@@ -2,8 +2,10 @@
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
+/** @var \app\models\Scalar\ScalarBusiness[] $businesses */
 
 $this->title = 'Businesses';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <table class="table table-hover">
@@ -14,7 +16,7 @@ $this->title = 'Businesses';
     </tr>
     </thead>
     <tbody>
-    <?php /** @var \app\models\Scalar\ScalarBusiness $business */
+    <?php
     foreach ( $businesses as $business ): ?>
         <tr>
             <td>

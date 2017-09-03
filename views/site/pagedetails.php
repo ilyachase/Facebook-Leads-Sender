@@ -8,6 +8,8 @@
 use yii\helpers\Url;
 
 $this->title = 'Page "' . $name . '"';
+$this->params['breadcrumbs'][] = [ 'label' => 'Businesses', 'url' => [ 'index' ] ];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
     <h2>Leadgen Forms</h2>

@@ -1,10 +1,13 @@
 <?php
 
 /* @var $this yii\web\View */
+/** @var \app\models\Scalar\ScalarPage[] $pages */
 
 use yii\helpers\Url;
 
 $this->title = 'Business "' . $name . '"';
+$this->params['breadcrumbs'][] = [ 'label' => 'Businesses', 'url' => [ 'index' ] ];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <h3>Pages</h3>
@@ -18,7 +21,7 @@ $this->title = 'Business "' . $name . '"';
     </tr>
     </thead>
     <tbody>
-    <?php /** @var \app\models\Scalar\ScalarPage $page */
+    <?php
     foreach ( $pages as $page ): ?>
         <tr>
             <td>
