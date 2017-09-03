@@ -35,6 +35,7 @@ class Destinations extends \yii\db\ActiveRecord
         return [
             [ [ 'client_id', 'content_type' ], 'integer' ],
             [ [ 'name', 'email_to', 'subject' ], 'required' ],
+            [ [ 'email_from', 'email_to', 'cc', 'bcc' ], 'email' ],
         ];
     }
 
