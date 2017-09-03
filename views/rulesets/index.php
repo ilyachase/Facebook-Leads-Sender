@@ -18,7 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-            'leadform_id',
+            [
+                'attribute' => 'facebookPageLink',
+                'format' => 'raw',
+                'label' => 'Page Url',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
