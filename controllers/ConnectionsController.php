@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\components\TrivialHelper;
-use app\models\Activerecord\Clients;
 use app\models\Activerecord\Destinations;
 use app\models\Activerecord\Rulesets;
 use Yii;
@@ -56,7 +55,6 @@ class ConnectionsController extends Controller
         return $this->render( 'index', [
             'searchModel'               => $searchModel,
             'dataProvider'              => $dataProvider,
-            'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
             'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
         ] );
     }
@@ -109,7 +107,6 @@ class ConnectionsController extends Controller
         {
             return $this->render( 'create', [
                 'model'                     => $model,
-                'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
                 'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
                 'rulesetsDropdownItems'     => ArrayHelper::map( Rulesets::find()->all(), 'id', 'name' ),
             ] );
@@ -136,7 +133,6 @@ class ConnectionsController extends Controller
         {
             return $this->render( 'update', [
                 'model'                     => $model,
-                'clientsDropdownItems'      => ArrayHelper::map( Clients::find()->all(), 'id', 'name' ),
                 'destinationsDropdownItems' => ArrayHelper::map( Destinations::find()->all(), 'id', 'name' ),
                 'rulesetsDropdownItems'     => ArrayHelper::map( Rulesets::find()->all(), 'id', 'name' ),
             ] );
