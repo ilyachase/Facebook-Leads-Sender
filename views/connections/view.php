@@ -1,6 +1,5 @@
 <?php
 
-use app\models\Activerecord\Clients;
 use app\models\Activerecord\Destinations;
 use app\models\Activerecord\Rulesets;
 use yii\helpers\Html;
@@ -38,12 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Ruleset', 'value' => function ( $model ) {
                 /** @var \app\models\Activerecord\Connections $model */
                 return Rulesets::findOne( $model->ruleset_id )->name;
-            }
-            ],
-            [
-                'label' => 'Client', 'value' => function ( $model ) {
-                /** @var \app\models\Activerecord\Connections $model */
-                return $model->client_id !== null ? Clients::findOne( $model->client_id )->name : null;
             }
             ],
             [

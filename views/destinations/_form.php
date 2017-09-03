@@ -6,7 +6,6 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Activerecord\Destinations */
 /* @var $form yii\widgets\ActiveForm */
-/* @var array $clientsDropdownItems */
 /* @var array $destinationsDropdownItems */
 /* @var null|int $ruleset_id */
 ?>
@@ -44,8 +43,6 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field( $model, 'name' )->textInput() ?>
-
-    <?= $form->field( $model, 'client_id' )->dropDownList( $clientsDropdownItems, [ 'prompt' => '' ] ) ?>
 
     <?= $form->field( $model, 'email_from' )->textInput() ?>
 

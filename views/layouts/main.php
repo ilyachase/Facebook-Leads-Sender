@@ -39,7 +39,6 @@ AppAsset::register( $this );
             [ 'label' => 'Home', 'url' => [ '/site/index' ] ],
             [ 'label' => 'Connections', 'url' => [ '/connections/index' ] ],
             [ 'label' => 'Destinations', 'url' => [ '/destinations/index' ] ],
-            [ 'label' => 'Clients', 'url' => [ '/clients/index' ] ],
             [ 'label' => 'Rulesets', 'url' => [ '/rulesets/index' ] ],
         ],
     ] );

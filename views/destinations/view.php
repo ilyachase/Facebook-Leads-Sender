@@ -1,6 +1,5 @@
 <?php
 
-use app\models\Activerecord\Clients;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -29,12 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            [
-                'label' => 'Client', 'value' => function ( $model ) {
-                /** @var \app\models\Activerecord\Destinations $model */
-                return $model->client_id !== null ? Clients::findOne( $model->client_id )->name : null;
-            }
-            ],
             'email_from:email',
             'email_to:email',
             'cc',

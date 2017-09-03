@@ -2,7 +2,6 @@
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Activerecord\Destinations */
-/* @var array $clientsDropdownItems */
 
 $this->title = 'Update Destination: ' . $model->name;
 $this->params['breadcrumbs'][] = [ 'label' => 'Destinations', 'url' => [ 'index' ] ];
@@ -13,7 +12,6 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render( '_form', [
         'model'                     => $model,
-        'clientsDropdownItems'      => $clientsDropdownItems,
         'destinationsDropdownItems' => [],
         'ruleset_id'                => null,
     ] ) ?>

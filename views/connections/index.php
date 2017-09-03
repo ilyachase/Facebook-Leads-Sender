@@ -1,6 +1,5 @@
 <?php
 
-use app\models\Activerecord\Clients;
 use app\models\Activerecord\Destinations;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -9,7 +8,6 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\Activerecord\ConnectionsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var array $clientsDropdownItems */
 /* @var array $destinationsDropdownItems */
 
 $this->title = 'Connections';
@@ -27,16 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [ 'class' => 'yii\grid\SerialColumn' ],
 
             'name',
-            [
-                'attribute' => 'client_id',
-                'label'     => 'Client',
-                'class'     => 'yii\grid\DataColumn',
-                'value'     => function ( $data ) {
-                    /** @var \app\models\Activerecord\Connections $data */
-                    return $data->client_id !== null ? Clients::findOne( $data->client_id )->name : null;
-                },
-                'filter'    => $clientsDropdownItems,
-            ],
             [
                 'attribute' => 'check_interval',
                 'class'     => 'yii\grid\DataColumn',

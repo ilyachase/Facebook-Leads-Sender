@@ -2,7 +2,6 @@
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Activerecord\Destinations */
-/* @var array $clientsDropdownItems */
 /* @var array $destinationsDropdownItems */
 /* @var null|int $ruleset_id */
 
@@ -15,7 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render( '_form', [
         'ruleset_id'                => $ruleset_id,
         'model'                     => $model,
-        'clientsDropdownItems'      => $clientsDropdownItems,
         'destinationsDropdownItems' => $destinationsDropdownItems,
     ] ) ?>
 
