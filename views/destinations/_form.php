@@ -15,8 +15,7 @@ use yii\widgets\ActiveForm;
     <?= $ruleset_id ? $this->render( '/site/_progress', [ 'activeStep' => 2 ] ) : '' ?>
 
     <?php if ( $ruleset_id ): ?>
-        <h2>Existing destination</h2>
-        <p>You can choose existing destination or create a new one in the form below.</p>
+        <h2>Choose the destination</h2>
 
         <?= Html::beginForm( '/connections/create', 'GET' ) ?>
 
@@ -37,7 +36,7 @@ use yii\widgets\ActiveForm;
     <?php endif; ?>
 
     <?php if ( $ruleset_id ): ?>
-        <h2>New destination</h2>
+        <h2>Or create new destination</h2>
     <?php endif; ?>
 
     <?php $form = ActiveForm::begin(); ?>
