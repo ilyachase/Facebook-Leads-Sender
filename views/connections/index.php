@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'    => $destinationsDropdownItems,
             ],
             'is_active:boolean',
+            'last_lead_time:datetime',
 
             [ 'class' => 'yii\grid\ActionColumn' ],
         ],
