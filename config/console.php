@@ -23,6 +23,7 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'logFile' => '@runtime/logs/trace.log',
                     'levels' => ['trace'],
+                    'logVars' => [],
                 ],
             ],
         ],
