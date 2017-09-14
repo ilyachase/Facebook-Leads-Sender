@@ -175,6 +175,8 @@ class AdfController extends Controller
         if ( !$this->debug )
             return;
 
+        \Yii::trace( $message );
+
         echo $message . ( $eol ? PHP_EOL : '' );
     }
 }
