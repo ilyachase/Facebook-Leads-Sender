@@ -26,6 +26,10 @@ class ADFGenerator
     /** @var array */
     private $_ADFFullStructure;
 
+    private $_ADFAdditionalAttributes = [
+        'customer_contact_name' => [ 'part' => 'full', 'type' => 'individual' ],
+    ];
+
     public function __construct()
     {
         $this->_ADFFullStructure = [
@@ -167,11 +171,21 @@ class ADFGenerator
 
                     $tagValue = ( $connection->includeQuestion ? $connection->leadgenFieldQuestion . ' - ' : '' ) . htmlspecialchars( trim( $leadData[$key] ) );
                     $parent = $resultXml->getElementsByTagName( 'prospect' )->item( $i );
+
+                    $_i = 0;
                     foreach ( $fieldPath as $tagName )
                     {
+                        $_i++;
                         if ( $parent->getElementsByTagName( $tagName )->length == 0 )
                         {
-                            $newNode = new \DOMElement( $tagName );
+                            $newNode = $resultXml->createElement( $tagName );
+
+                            if ( isset( $this->_ADFAdditionalAttributes[$key] ) && count( $fieldPath ) == $_i )
+                            {
+                                foreach ( $this->_ADFAdditionalAttributes[$key] as $attributeName => $attributeValue )
+                                    $newNode->setAttribute( $attributeName, $attributeValue );
+                            }
+
                             $parent->appendChild( $newNode );
                         }
 
