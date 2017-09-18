@@ -16,6 +16,13 @@ use yii\helpers\Html;
  * @property string $cc
  * @property string $bcc
  * @property string $subject
+ * @property string $vendor_id
+ * @property string $vendor_id_source
+ * @property string $vendor_name
+ * @property string $vendor_contact_name
+ * @property string $provider_id
+ * @property string $provider_id_source
+ * @property string $provider_name
  */
 class Destinations extends \yii\db\ActiveRecord
 {
@@ -36,6 +43,7 @@ class Destinations extends \yii\db\ActiveRecord
             [ [ 'client_id', 'content_type' ], 'integer' ],
             [ [ 'name', 'email_to', 'subject' ], 'required' ],
             [ [ 'email_from', 'email_to', 'cc', 'bcc' ], 'email' ],
+            [ [ 'name', 'email_from', 'vendor_id', 'vendor_id_source', 'vendor_name', 'vendor_contact_name', 'provider_id', 'provider_id_source', 'provider_name' ], 'string', 'max' => 255 ],
         ];
     }
 
@@ -45,14 +53,21 @@ class Destinations extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'           => 'ID',
-            'name'         => 'Name',
-            'client_id'    => 'Client ID',
-            'content_type' => 'Content Type',
-            'email_to'     => 'Email To',
-            'cc'           => 'Cc',
-            'bcc'          => 'Bcc',
-            'subject'      => 'Subject',
+            'id'                  => 'ID',
+            'name'                => 'Name',
+            'client_id'           => 'Client ID',
+            'content_type'        => 'Content Type',
+            'email_to'            => 'Email To',
+            'cc'                  => 'Cc',
+            'bcc'                 => 'Bcc',
+            'subject'             => 'Subject',
+            'vendor_id'           => 'Vendor ID',
+            'vendor_id_source'    => 'Vendor ID [Source]',
+            'vendor_name'         => 'Vendor Name',
+            'vendor_contact_name' => 'Vendor Contact Name',
+            'provider_id'         => 'Provider ID',
+            'provider_id_source'  => 'Provider ID [Source]',
+            'provider_name'       => 'Provider Name',
         ];
     }
 

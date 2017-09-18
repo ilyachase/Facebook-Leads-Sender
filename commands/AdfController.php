@@ -59,7 +59,6 @@ class AdfController extends Controller
     public function actionIndex()
     {
         $currentMinutes = (int) date( 'G' ) * 60 + (int) date( 'i' );
-        $generator = new ADFGenerator();
         $this->log( "ADF generation script started working." );
         $this->log( "Current time: " . Yii::$app->formatter->asDatetime( time() ) );
         $this->log( "Current minutes: $currentMinutes" );
@@ -78,6 +77,7 @@ class AdfController extends Controller
              */
             foreach ( $connections as $connection )
             {
+                $generator = new ADFGenerator();
                 $this->log( "Found connection with id = $connection->id" );
                 $connection->last_time_checked = Yii::$app->formatter->asDatetime( time(), FORMATTER_MYSQL_DATETIME_FORMAT );
                 $connection->save();
@@ -132,6 +132,21 @@ class AdfController extends Controller
 
                     $leadsSendedCounter++;
                 }
+
+                if ( $destination->vendor_id )
+                    $generator->addAdditionalTag( 'vendor_id', $destination->vendor_id );
+                if ( $destination->vendor_name )
+                    $generator->addAdditionalTag( 'vendor_name', $destination->vendor_name );
+                if ( $destination->vendor_contact_name )
+                    $generator->addAdditionalTag( 'vendor_contact_name', $destination->vendor_contact_name );
+                if ( $destination->provider_id )
+                    $generator->addAdditionalTag( 'provider_id', $destination->provider_id );
+                if ( $destination->provider_name )
+                    $generator->addAdditionalTag( 'provider_name', $destination->provider_name );
+                if ( $destination->vendor_id_source )
+                    $generator->addAdditionalAttribute( 'vendor_id', 'source', $destination->vendor_id_source );
+                if ( $destination->provider_id_source )
+                    $generator->addAdditionalAttribute( 'provider_id', 'source', $destination->provider_id_source );
 
                 $xmlString = $generator->generateADF( $adfData, $ruleset );
 

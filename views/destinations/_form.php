@@ -53,6 +53,20 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field( $model, 'subject' )->textInput() ?>
 
+    <?= $form->field( $model, 'vendor_id' ) ?>
+
+    <?= $form->field( $model, 'vendor_id_source' ) ?>
+
+    <?= $form->field( $model, 'vendor_name' ) ?>
+
+    <?= $form->field( $model, 'vendor_contact_name' ) ?>
+
+    <?= $form->field( $model, 'provider_id' ) ?>
+
+    <?= $form->field( $model, 'provider_id_source' ) ?>
+
+    <?= $form->field( $model, 'provider_name' ) ?>
+
     <div class="form-group">
         <?= Html::submitButton( $model->isNewRecord ? 'Create' : 'Update', [ 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary' ] ) ?>
     </div>

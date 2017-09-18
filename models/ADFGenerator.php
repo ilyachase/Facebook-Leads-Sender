@@ -26,9 +26,13 @@ class ADFGenerator
     /** @var array */
     private $_ADFFullStructure;
 
+    /** @var array */
     private $_ADFAdditionalAttributes = [
         'customer_contact_name' => [ 'part' => 'full', 'type' => 'individual' ],
     ];
+
+    /** @var array */
+    private $_ADFAdditionalTags;
 
     public function __construct()
     {
@@ -159,6 +163,11 @@ class ADFGenerator
         $i = 0;
         foreach ( $adfData as $leadData )
         {
+            if ( count( $this->_ADFAdditionalTags ) )
+            {
+                $leadData = array_merge( $leadData, $this->_ADFAdditionalTags );
+            }
+
             $adf->appendChild( ( new \DOMElement( 'prospect' ) ) );
 
             foreach ( $this->extractADFFields( $this->_ADFFullStructure ) as $fieldPath )
@@ -169,7 +178,7 @@ class ADFGenerator
                 {
                     $connection = $ruleset->getConnectionByAdfFieldId( $key );
 
-                    $tagValue = ( $connection->includeQuestion ? $connection->leadgenFieldQuestion . ' - ' : '' ) . htmlspecialchars( trim( $leadData[$key] ) );
+                    $tagValue = ( $connection && $connection->includeQuestion ? $connection->leadgenFieldQuestion . ' - ' : '' ) . htmlspecialchars( trim( $leadData[$key] ) );
                     $parent = $resultXml->getElementsByTagName( 'prospect' )->item( $i );
 
                     $_i = 0;
@@ -214,5 +223,35 @@ class ADFGenerator
         }
 
         return implode( ' 	&rarr; ', $field );
+    }
+
+    /**
+     * @param string $adfFieldKey
+     * @param string $attrName
+     * @param string $attrValue
+     *
+     * @return ADFGenerator $this
+     */
+    public function addAdditionalAttribute( $adfFieldKey, $attrName, $attrValue )
+    {
+        if ( !isset( $this->_ADFAdditionalAttributes[$adfFieldKey] ) )
+            $this->_ADFAdditionalAttributes[$adfFieldKey] = [];
+
+        $this->_ADFAdditionalAttributes[$adfFieldKey] = array_merge( $this->_ADFAdditionalAttributes[$adfFieldKey], [ $attrName => $attrValue ] );
+
+        return $this;
+    }
+
+    /**
+     * @param string $tagKey
+     * @param string $tagValue
+     *
+     * @return ADFGenerator $this
+     */
+    public function addAdditionalTag( $tagKey, $tagValue )
+    {
+        $this->_ADFAdditionalTags[$tagKey] = $tagValue;
+
+        return $this;
     }
 }

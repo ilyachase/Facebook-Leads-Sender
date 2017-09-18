@@ -5,7 +5,6 @@ namespace app\models\Activerecord;
 use app\models\Scalar\ScalarFieldConnection;
 use FacebookAds\Object\LeadgenForm;
 use FacebookAds\Object\Page;
-use yii\console\Exception;
 use yii\helpers\Html;
 
 /**
@@ -113,8 +112,7 @@ class Rulesets extends \yii\db\ActiveRecord
     /**
      * @param string $adfFieldId
      *
-     * @return ScalarFieldConnection
-     * @throws Exception
+     * @return ScalarFieldConnection|null
      */
     public function getConnectionByAdfFieldId( $adfFieldId )
     {
@@ -124,7 +122,7 @@ class Rulesets extends \yii\db\ActiveRecord
                 return $connection;
         }
 
-        throw new Exception( "Connection with adf field id $adfFieldId not found:" . print_r( $this->fieldConnections, true ) );
+        return null;
     }
 
     /**

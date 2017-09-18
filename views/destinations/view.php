@@ -33,6 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'cc',
             'bcc',
             'subject',
+            'vendor_id',
+            'vendor_id_source',
+            'vendor_name',
+            'vendor_contact_name',
+            'provider_id',
+            'provider_id_source',
+            'provider_name',
         ],
     ] ) ?>
 
