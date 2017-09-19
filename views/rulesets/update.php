@@ -26,14 +26,9 @@ $this->params['breadcrumbs'][] = 'Update';
     </div>
 
     <div class="row">
-        <p class="text-info text-center">
-            <strong>Info:</strong> To include question text in ADF field, use according checkboxes near selects lists.
-        </p>
-    </div>
-
-    <div class="row">
         <div class="col-sm-4 col-sm-offset-1 text-center"><h4>Leadgen form fields</h4></div>
-        <div class="col-sm-4 text-center"><h4>ADF fields</h4></div>
+        <div class="col-sm-3 text-center"><h4>ADF fields</h4></div>
+        <div class="col-sm-3 col-sm-offset-1 text-left text-left"><h4>Add question text in ADF field?</h4></div>
     </div>
 
 <?php foreach ( $model->fieldConnections as $field ): ?>
