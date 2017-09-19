@@ -4,13 +4,14 @@
  * @var $this yii\web\View
  * @var $model app\models\Activerecord\Rulesets
  * @var \app\models\Scalar\ScalarLeadgenForm $leadgenForm
- * @var string $selectOptions
+ * @var ADFGenerator $adfGenerator
  */
 
 $this->title = 'Create Rulesets';
 $this->params['breadcrumbs'][] = [ 'label' => 'Rulesets', 'url' => [ 'index' ] ];
 $this->params['breadcrumbs'][] = $this->title;
 
+use app\models\ADFGenerator;
 use yii\widgets\ActiveForm;
 
 $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
@@ -50,7 +51,7 @@ $this->title = 'Leadgen form "' . $leadgenForm->name . '"';
     <div class="form-group clearfix">
         <div class="col-sm-4">
             <select class="form-control" name="fieldConnections[<?= $field->id ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_ADF_FIELD_ID ?>]">
-                <?= $selectOptions ?>
+                <?= $adfGenerator->getADFFieldSelectOptionsHtml( '', $field->question ) ?>
             </select>
             <input class="ml5 ruleset-question-checkbox" title="Include question text in ADF field" name="fieldConnections[<?= $field->id ?>][<?= \app\models\Scalar\ScalarFieldConnection::KEY_INCLUDE_QUESTION ?>]" type="checkbox" value="1">
         </div>

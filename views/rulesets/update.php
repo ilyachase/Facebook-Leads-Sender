@@ -1,6 +1,9 @@
 <?php
 
-/* @var $this yii\web\View */
+/**
+ * @var $this yii\web\View
+ * @var ADFGenerator $adfGenerator
+ */
 
 use app\models\ADFGenerator;
 use yii\widgets\ActiveForm;
@@ -11,7 +14,6 @@ $this->title = 'Update Rulesets: ' . $model->id;
 $this->params['breadcrumbs'][] = [ 'label' => 'Rulesets', 'url' => [ 'index' ] ];
 $this->params['breadcrumbs'][] = [ 'label' => $model->id, 'url' => [ 'view', 'id' => $model->id ] ];
 $this->params['breadcrumbs'][] = 'Update';
-$adfGenerator = new ADFGenerator();
 
 ?>
 <?php $form = ActiveForm::begin(); ?>

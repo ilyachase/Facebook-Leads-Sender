@@ -91,9 +91,9 @@ class RulesetsController extends Basecontroller
         }
 
         return $this->render( 'create', [
-            'model'         => $model,
-            'leadgenForm'   => $leadgenForm,
-            'selectOptions' => ( new ADFGenerator() )->getADFFieldSelectOptionsHtml(),
+            'model'        => $model,
+            'leadgenForm'  => $leadgenForm,
+            'adfGenerator' => new ADFGenerator(),
         ] );
     }
 
@@ -116,7 +116,8 @@ class RulesetsController extends Basecontroller
         }
 
         return $this->render( 'update', [
-            'model' => $model,
+            'model'        => $model,
+            'adfGenerator' => new ADFGenerator(),
         ] );
     }
 

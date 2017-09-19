@@ -40,12 +40,12 @@ class ADFGenerator
             'customer' => [
                 'contact'   => $this->_ADFPartContact,
                 'id'        => true,
-                'comments'  => true,
                 'timeframe' => [
                     'description'  => true,
                     'earliestdate' => true,
                     'latestdate'   => true,
                 ],
+                'comments'  => true,
             ],
             'vehicle'  => [
                 'id'               => true,
@@ -102,25 +102,56 @@ class ADFGenerator
 
     /**
      * @param string $selectedOption
+     * @param string $question
      *
      * @return string
      */
-    public function getADFFieldSelectOptionsHtml( $selectedOption = '' )
+    public function getADFFieldSelectOptionsHtml( $selectedOption = '', $question = '' )
     {
         $outHtml = '';
 
+        $foundSelected = false;
         foreach ( $this->_ADFFullStructure as $rootLabel => $fieldData )
         {
             $outHtml .= '<optgroup label="' . $rootLabel . '">' . "\n";
             foreach ( $this->extractADFFields( $fieldData ) as $fieldPath )
             {
+                $detectedShouldBeSelected = self::_DetectIsADFOptionSelected( $question, array_merge( [ $rootLabel ], $fieldPath ) );
                 $value = implode( '_', array_merge( [ $rootLabel ], $fieldPath ) );
-                $outHtml .= '<option' . ( $selectedOption == $value ? ' selected="selected"' : '' ) . ' value="' . $value . '">' . self::GetSingleFieldText( array_merge( [ $rootLabel ], $fieldPath ) ) . '</option>' . "\n";
+                $outHtml .= '<option' . ( ( $selectedOption == $value || !$foundSelected && $detectedShouldBeSelected ) ? ' selected="selected"' : '' ) . ' value="' . $value . '">' . self::GetSingleFieldText( array_merge( [ $rootLabel ], $fieldPath ) ) . '</option>' . "\n";
+                if ( !$foundSelected && $detectedShouldBeSelected )
+                    $foundSelected = true;
             }
             $outHtml .= '</optgroup>';
         }
 
         return $outHtml;
+    }
+
+    /**
+     * @param string $question
+     * @param array $fieldPath
+     *
+     * @return bool
+     */
+    private static function _DetectIsADFOptionSelected( $question, array $fieldPath )
+    {
+        if ( !$question || current( $fieldPath ) != 'customer' )
+            return false;
+
+        foreach ( $fieldPath as $fileItem )
+        {
+            foreach ( explode( ' ', mb_strtolower( $question ) ) as $questionPart )
+            {
+                if ( $questionPart == $fileItem )
+                    return true;
+            }
+        }
+
+        if ( implode( '_', $fieldPath ) == 'customer_comments' )
+            return true;
+
+        return false;
     }
 
     /**
